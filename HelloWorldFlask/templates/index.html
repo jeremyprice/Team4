@@ -50,11 +50,27 @@
 
             <h1>Give it a try.</h1>
             <br>
-            <textarea class="form-control" rows="3">[Enter your text here]
+            <textarea class="form-control" rows="3" id="userText">[Enter your text here]
             </textarea>
         </center>
         <br>
-        <a href="#" class="btn btn-primary btn-lg" role="button">Submit »</a>
+         <script language="javascript">
+function getText()
+{
+    var x
+    var valueArr=[];
+    var splits
+    var i
+    x = document.getElementById('userText').value
+    splits = x.split(/\s+/);
+    for (i=0; i < splits.length; i++) {
+        valueArr[i] = splits[i]
+
+    }
+ document.write(valueArr.toString());
+}
+</script>
+        <a href="#" class="btn btn-primary btn-lg" role="button" onclick="getText()">Submit »</a>
     </div>
 </div>
 
