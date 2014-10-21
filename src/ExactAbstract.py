@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import request
 from flask import render_template
+from algorithms.Statistical import get_keyword
 
 app = Flask(__name__)
 
@@ -14,7 +15,7 @@ def hello_world():
 def my_form_post():
     if request.method == 'POST':
         text = request.form['userText']
-        return text
+        return ', '.join(get_keyword(text))
     else:
         return 'Something has gone terribly wrong.'
 
