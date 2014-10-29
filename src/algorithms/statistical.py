@@ -1,17 +1,13 @@
 from __future__ import division
 import string
 import operator
+import itertools
 
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
+from nltk.stem.porter import PorterStemmer
+from nltk.probability import FreqDist
 import scipy.sparse
-
-
-def main():
-    print(get_keyword(
-        "This is a sentence. This is another important sentence, but about bagels. "
-        "This is a very important sentence. This sentence is not. Never important. "
-        "Now here is a phrase that shares no words with the others to make a mess of things."))
 
 
 def get_keyword(s, n=5):
@@ -40,6 +36,7 @@ def get_chi_squared_for_term(term, terms, matrix):
 
     nw = row.sum()
     chi = 0
+    maximal = 0
 
     for i, freq in enumerate(arr):
         if i == index:
@@ -47,9 +44,13 @@ def get_chi_squared_for_term(term, terms, matrix):
 
         pg = get_expected_probability(i, terms, matrix)
         tmp = nw * pg
-        chi += pow((freq - tmp), 2) / tmp
+        tmp = pow((freq - tmp), 2) / tmp
+        chi += tmp
 
-    return chi
+        if tmp > maximal:
+            maximal = tmp
+
+    return chi - maximal
 
 
 def get_expected_probability(index, terms, matrix):
@@ -70,6 +71,7 @@ def get_coocurrence_matrix(sentences):
     data = []
     row = []
     col = []
+    stemmer = PorterStemmer()
 
     for i, sentence in enumerate(sentences):
         for word in sentence:
@@ -85,16 +87,23 @@ def get_coocurrence_matrix(sentences):
 
 def get_tokenized_sentences(s):
     sentences = sent_tokenize(s.lower())
-    for i in range(len(sentences)):
-        sentences[i] = filter_words(sentences[i])
-    return sentences
+    return filter_sentences(sentences)
 
 
-def filter_words(sentence):
-    words = word_tokenize(sentence)
+def filter_sentences(sentences, fraction_words_to_use=.3):
     stops = set(stopwords.words('english')).union(string.punctuation)
-    return [word for word in words if word not in stops]
+    stemmer = PorterStemmer()
 
+    for i in range(len(sentences)):
+        sentences[i] = word_tokenize(sentences[i])
+        sentences[i] = [stemmer.stem(word) for word in sentences[i] if word not in stops]
 
-if __name__ == '__main__':
-    main()
+    words = list(itertools.chain.from_iterable(sentences))
+    freq_dist = FreqDist(words)
+    target_num = int(freq_dist.B() * fraction_words_to_use)
+    targets = freq_dist.most_common(target_num)
+
+    for i in range(len(sentences)):
+        sentences[i] = [word for word in sentences[i] if word in targets]
+
+    return sentences
