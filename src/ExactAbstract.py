@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import request
 from flask import render_template
-from algorithms.Statistical import get_keyword
+from algorithms.statistical import get_keyword
 
 app = Flask(__name__)
 
