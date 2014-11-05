@@ -1,0 +1,25 @@
+FORMAT: 1A
+
+# ExactAbstract API
+Notes API is a *short texts saving* service similar to its physical paper presence on your table.
+
+# Group Keywords
+Notes related resources of the **ExactAbstract API**
+
+## Keyword Collection [/keywords]
+
+### Generate Keywords [POST]
++ Request (application/json)
+
+        { "abstract": "This is some text. It is related to a sentence. Possibly a long sentence. This sentence is important. This sentence is not important." }
+
++ Response 200 (application/json)
+
+        { "keywords": [
+                "sentence",
+                "imporant",
+                "text",
+                "possibly",
+                "related"
+            ]
+        }
