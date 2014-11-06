@@ -2,20 +2,21 @@ from flask import Flask
 from flask import request
 from flask import render_template
 from algorithms.statistical import get_keyword
+import json
 
 app = Flask(__name__)
 
 
 @app.route('/')
-def hello_world():
+def index():
     return render_template('index.html')
 
 
-@app.route('/get_user_input', methods=['POST'])
-def my_form_post():
+@app.route('/keywords', methods=['POST'])
+def get_keywords():
     if request.method == 'POST':
-        text = request.form['userText']
-        return ', '.join(get_keyword(text))
+        text = request.form['text']
+        return json.dumps(get_keyword(text))
     else:
         return 'Something has gone terribly wrong.'
 
