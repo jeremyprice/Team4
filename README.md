@@ -13,6 +13,11 @@ This project is written entirely in Python, and currently has the following depe
 * NLTK 3.0
 * Numpy 1.9.0
 * Scipy 0.14.0
+* Flask
+
+To install the dependencies run (in a virtualenv or otherwise):
+
+`pip3 install nltk numpy scipy flask`
 
 ## Usage
 
