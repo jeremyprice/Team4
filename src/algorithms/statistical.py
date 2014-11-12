@@ -71,7 +71,6 @@ def get_coocurrence_matrix(sentences):
     data = []
     row = []
     col = []
-    stemmer = PorterStemmer()
 
     for i, sentence in enumerate(sentences):
         for word in sentence:
@@ -102,6 +101,7 @@ def filter_sentences(sentences, fraction_words_to_use=.3):
     freq_dist = FreqDist(words)
     target_num = int(freq_dist.B() * fraction_words_to_use)
     targets = freq_dist.most_common(target_num)
+    targets = [target[0] for target in targets]
 
     for i in range(len(sentences)):
         sentences[i] = [word for word in sentences[i] if word in targets]
