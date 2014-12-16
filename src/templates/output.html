@@ -25,7 +25,7 @@
                         </div>
                         <div class="panel-body">
                             {% for word in tokenized_text %}
-                            {% if word in hashtags %}
+                            {% if word in highlighted_text %}
                             <span style="background-color: #FFFF00">{{word}}</span>
                             {% else %}
                             <span style="background-color: #ffffff">{{word}}</span>
