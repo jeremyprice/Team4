@@ -8,11 +8,14 @@ from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 from nltk.probability import FreqDist
 import scipy.sparse
+from divergence import js_divergence
+from math import log
 
 
 def get_keyword(s, n=5):
     tok_sent = get_tokenized_sentences(s)
     terms, mat = get_coocurrence_matrix(tok_sent)
+    clusters = cluster_terms(terms, mat)
     rated_terms = get_chi_squared(terms, mat)
     sorted_terms = sorted(rated_terms.items(), key=operator.itemgetter(1))
     sorted_terms.reverse()
@@ -26,6 +29,44 @@ def get_chi_squared(terms, matrix):
         prob = get_chi_squared_for_term(term, terms, matrix)
         words.setdefault(term, prob)
     return words
+
+
+def cluster_terms(terms, matrix):
+    threshold = 0.95 * log(2)
+    clusters = []
+
+    for term in terms:
+        dict_index = terms[term]
+        row = matrix.getrow(dict_index)
+        arr = row.toarray()[0]
+        arr[dict_index] = 0
+
+        cluster = set()
+        cluster.add(term)
+
+        for term2 in terms:
+            if term != term2:
+                dict_index = terms[term2]
+                row = matrix.getrow(dict_index)
+                arr2 = row.toarray()[0]
+                arr2[dict_index] = 0
+                div = js_divergence(arr, arr2)
+
+                if div > threshold:
+                    cluster.add(term2)
+
+        add_cluster(clusters, cluster)
+
+    return clusters
+
+
+def add_cluster(current_clusters, new_cluster):
+    for clust in current_clusters:
+        for term in new_cluster:
+            if term in clust:
+                clust.union(new_cluster)
+                return
+    current_clusters.append(new_cluster)
 
 
 def get_chi_squared_for_term(term, terms, matrix):
@@ -89,7 +130,7 @@ def get_tokenized_sentences(s):
     return filter_sentences(sentences)
 
 
-def filter_sentences(sentences, fraction_words_to_use=.3):
+def filter_sentences(sentences, fraction_words_to_use=1):
     stops = set(stopwords.words('english')).union(string.punctuation)
     stemmer = PorterStemmer()
 
@@ -107,3 +148,6 @@ def filter_sentences(sentences, fraction_words_to_use=.3):
         sentences[i] = [word for word in sentences[i] if word in targets]
 
     return sentences
+
+if __name__ == '__main__':
+    print(get_keyword("Puppies are cool. Puppies are awesome."))
