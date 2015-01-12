@@ -2,32 +2,32 @@ from __future__ import division
 import string
 import operator
 import itertools
+from math import log
 
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 from nltk.probability import FreqDist
 import scipy.sparse
+
 from divergence import js_divergence
-from math import log
 
 
 def get_keyword(s, n=5):
     tok_sent = get_tokenized_sentences(s)
     terms, mat = get_coocurrence_matrix(tok_sent)
     clusters = cluster_terms(terms, mat)
-    rated_terms = get_chi_squared(terms, mat)
+    rated_terms = get_chi_squared(terms, clusters, mat)
     sorted_terms = sorted(rated_terms.items(), key=operator.itemgetter(1))
     sorted_terms.reverse()
     keywords = sorted_terms[:n]
     return [i[0] for i in keywords]
 
 
-def get_chi_squared(terms, matrix):
+def get_chi_squared(terms, clusters, matrix):
     words = {}
     for term in terms:
-        prob = get_chi_squared_for_term(term, terms, matrix)
-        words.setdefault(term, prob)
+        words[term] = get_chi_squared_for_term(term, terms, clusters, matrix)
     return words
 
 
@@ -69,7 +69,7 @@ def add_cluster(current_clusters, new_cluster):
     current_clusters.append(new_cluster)
 
 
-def get_chi_squared_for_term(term, terms, matrix):
+def get_chi_squared_for_term(term, terms, clusters, matrix):
     index = terms[term]
     row = matrix.getrow(index)
     arr = row.toarray()[0]
@@ -79,12 +79,14 @@ def get_chi_squared_for_term(term, terms, matrix):
     chi = 0
     maximal = 0
 
-    for i, freq in enumerate(arr):
-        if i == index:
+    for cluster in clusters:
+        if term in cluster:
             continue
 
-        pg = get_expected_probability(i, terms, matrix)
-        tmp = nw * pg
+        pc = get_expected_probability(term, terms, clusters, matrix)
+        cluster_cooccurence = get_cluster_cooccurence(terms, cluster, matrix).toarray()[0]
+        freq = cluster_cooccurence[index]
+        tmp = nw * pc
         tmp = pow((freq - tmp), 2) / tmp
         chi += tmp
 
@@ -94,17 +96,25 @@ def get_chi_squared_for_term(term, terms, matrix):
     return chi - maximal
 
 
-def get_expected_probability(index, terms, matrix):
-    return (matrix.getrow(index).getnnz() - 1) / len(terms)
+def get_expected_probability(term, terms, clusters, matrix):
+    for cluster in clusters:
+        if term in cluster:
+            cluster_cooccurence = get_cluster_cooccurence(terms, cluster, matrix)
+            return (cluster_cooccurence.getnnz() - 1) / len(clusters)
+
+    raise ValueError('Term "' + term + '" was not found to be in any cluster.')
 
 
-def get_expected_probabilities(terms, matrix):
-    arr = [None] * len(terms)
-    for term in terms:
-        nc = matrix.getcol(terms[term]).getnnz()
-        pc = nc / len(terms)
-        arr[terms[term]] = pc
-    return arr
+def get_cluster_cooccurence(terms, cluster, matrix):
+    rows = []
+    for term in cluster:
+        rows.append(matrix.getrow(terms[term]))
+
+    total = rows[0]
+    for i in range(1, len(rows)):
+        total = total + rows[i]
+
+    return total
 
 
 def get_coocurrence_matrix(sentences):
@@ -148,6 +158,7 @@ def filter_sentences(sentences, fraction_words_to_use=1):
         sentences[i] = [word for word in sentences[i] if word in targets]
 
     return sentences
+
 
 if __name__ == '__main__':
     print(get_keyword("Puppies are cool. Puppies are awesome."))
