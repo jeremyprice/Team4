@@ -13,7 +13,6 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-
 @app.route('/keywords', methods=['POST'])
 def get_keywords():
     if request.method == 'POST':
