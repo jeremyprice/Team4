@@ -39,13 +39,13 @@ def get_keywords():
 
 def get_data(opened_file):
     text = opened_file.read()
-    decoded_text = str(text)
+    decoded_text = text.decode('utf-8')
     tokenized_text = word_tokenize(decoded_text)
     keywords = get_keyword(decoded_text)
     highlighted_words = get_highlighted_words(tokenized_text, keywords)
     abstract_id = insert_document(tokenized_text, keywords, abstracts)
     data = {'hashtags': keywords, 'text': decoded_text, 'tokenized_text': tokenized_text,
-            'highlighted_words': highlighted_words, 'abstract_id': abstract_id}
+            'highlighted_text': highlighted_words, 'abstract_id': abstract_id}
     return data
 
 
