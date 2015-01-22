@@ -39,7 +39,7 @@ def get_keywords():
 
 def get_data(opened_file):
     text = opened_file.read()
-    decoded_text = text.decode('utf-8')
+    decoded_text = text.decode("ISO-8859-1")
     tokenized_text = word_tokenize(decoded_text)
     keywords = get_keyword(decoded_text)
     highlighted_words = get_highlighted_words(tokenized_text, keywords)
