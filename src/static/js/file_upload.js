@@ -35,6 +35,7 @@ $(function () {
 });
 
 function testWord(word, highlightedWords) {
+    var id= 0;
     for (var i = 0; i < highlightedWords.length; i++) {
         if (word == highlightedWords[i]) {
             var newSpan = null;
@@ -42,14 +43,19 @@ function testWord(word, highlightedWords) {
             newSpan.setAttribute('class', 'testSpan');
             $('#original_text').append(newSpan);
             $(newSpan).text(word+" ");
+            id=1;
             break;
         }
-            var newSpan = null;
+
+    }
+    if(id==0){
+          var newSpan = null;
             newSpan = document.createElement('span');
             $('#original_text').append(newSpan);
             $(newSpan).text(word+" ");
-            break;
     }
+
+
 }
 
 
