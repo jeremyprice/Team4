@@ -23,7 +23,7 @@
                             <center><h3 class="panel-title">Original Abstract</h3></center>
                         </div>
                         <div class="panel-body">
-                            <span id="original_text"></span>
+                            <div id="original_text"></div>
                             {% for word in tokenized_text %}
                             {% if word in highlighted_text %}
                             <span style="background-color: #FFFF00">{{word}}</span>

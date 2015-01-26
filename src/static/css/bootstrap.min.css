@@ -25,6 +25,9 @@
   width: 31.914893614%;
 }
 
+.testSpan{
+    border:3px solid red;
+}
 
 
 body{
@@ -6712,6 +6715,7 @@ button.close{
 	}
 
 }
+
 
 .visible-print-block{
 	display:none!important
