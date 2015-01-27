@@ -45,17 +45,20 @@ function setOutputColor(word, highlightedWords) {
             newSpan = document.createElement('span');
             newSpan.setAttribute('class', 'highlighted-text');
             $('#original_text').append(newSpan);
-            $(newSpan).text(word + " ");
+            $(newSpan).text(word);
             highlight_flag = 1;
             break;
         }
-
     }
+
+    var newSpan = null;
+    newSpan = document.createElement('span');
+    $('#original_text').append(newSpan);
+
     if (highlight_flag == 0) {
-        var newSpan = null;
-        newSpan = document.createElement('span');
-        $('#original_text').append(newSpan);
         $(newSpan).text(word + " ");
+    } else {
+        $(newSpan).text(" ");
     }
 
 
