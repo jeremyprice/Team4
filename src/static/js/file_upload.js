@@ -2,9 +2,26 @@
  * Created by rodriga on 1/12/2015.
  */
 $(function () {
-    $('#submit').click(function () {
 
+    $("#input-25").fileinput({
+        layoutTemplates: {
+            main1: '{preview}\n' +
+                '<div class="kv-upload-progress hide"></div>\n' +
+                '<div class="input-group {class}">\n' +
+                '   {caption}\n' +
+                '   <div class="input-group-btn">\n' +
+                '       {remove}\n' +
+                '       {cancel}\n' +
+                '       {browse}\n' +
+                '       <button type="button" class="btn btn-primary btn-next" id="submit"><i class="glyphicon glyphicon-upload"></i> Upload</button>\n' +
+                '   </div>\n' +
+                '</div>'
+        }
+    });
+
+    $("#submit").click(function () {
         var form_data = new FormData($('#uploadform')[0]);
+
         $.ajax({
             type: 'POST',
             url: '/uploadajax',
@@ -13,12 +30,15 @@ $(function () {
             processData: false,
             dataType: 'json'
         }).done(function (data) {
+
             $('#hashtags').text(data['hashtags']);
             $('#abstract_id').text(data['abstract_id']);
 
             for (var i = 0; i < data['tokenized_text'].length; i++) {
                 setOutputColor(data['tokenized_text'][i], data['highlighted_text'])
             }
+
+            $('#myWizard').wizard('next');
 
         }).fail(function (data) {
             alert('error!');

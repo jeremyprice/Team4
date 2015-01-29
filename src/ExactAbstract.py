@@ -56,10 +56,11 @@ def allowed_file(filename):
 
 @app.route('/uploadajax', methods=['POST'])
 def upldfile():
+
     if request.method == 'POST':
         file = request.files['file']
         if file and allowed_file(file.filename):
-            data= get_data(file)
+            data = get_data(file)
             return jsonify(data)
 
 
