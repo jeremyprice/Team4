@@ -23,7 +23,7 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/fileUploadWizard')
+@app.route('/fileUploadWizard', methods=['GET', 'POST'])
 def file_upload_wizard():
     return render_template('fileUploadWizard.html')
 
@@ -56,12 +56,14 @@ def allowed_file(filename):
 
 @app.route('/uploadajax', methods=['POST'])
 def upldfile():
-
+    allData = {'fileInfo': []}
     if request.method == 'POST':
-        file = request.files['file']
-        if file and allowed_file(file.filename):
-            data = get_data(file)
-            return jsonify(data)
+        files = request.files.getlist('file[]')
+        for file in files:
+            if file and allowed_file(file.filename):
+                data = get_data(file)
+                allData['fileInfo'].append(data)
+        return jsonify(allData)
 
 
 def get_highlighted_words(text, keys):

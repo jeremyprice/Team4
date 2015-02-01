@@ -49,8 +49,8 @@
                                     <div class="col-sm-8">
                                         <form id="uploadform" method=post
                                               enctype=multipart/form-data>
-                                            <input
-                                                    id="input-25" name="file" multiple="true" class="file" type="file">
+                                            <input id="input-700" name="file[]" class="file-loading"
+                                                   data-upload-url="fileUploadWizard" type="file" multiple/>
                                         </form>
 
                                     </div>
@@ -62,7 +62,7 @@
 
                     <div class="step-pane sample-pane  alert" data-step="2">
                         <h4>Summary Results</h4>
-                        {% include "output.html" %}
+                        {% include "fileUploadOutput.html" %}
                     </div>
 
                     <div class="step-pane sample-pane alert" data-step="3">
