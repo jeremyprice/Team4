@@ -22,6 +22,34 @@ abstracts.remove({})
 def index():
     return render_template('index.html')
 
+@app.route('/abstract_keyword_search', methods=['POST'])
+def abstract_keyword_search():
+    if request.method == 'POST':
+        keyword = request.form['keyword']
+        cursor = abstracts.find({})
+        text = ''
+        stemmer = PorterStemmer()
+        if cursor.count() == 0:
+            return 'There are no abstracts!'
+        else:
+            for x in range(0, cursor.count()):
+                keywords = cursor[x]['keywords']
+                if any(stemmer.stem(keyword.lower()) in s for s in keywords):
+                    text = text + str(cursor[x]['_id']) + " "
+                    '''for s in keywords:
+                        text = text + s + " "
+                    text = text + "      "
+                    for s in cursor[x]['text']:
+                        text = text + s + " "
+                    text = text+"                  "
+                highlighted = get_highlighted_words(tokenized_text, keywords)
+                abstract_id = cursor[x]['_id']
+                return render_template('output.html', hashtags=keywords, tokenized_text=tokenized_text,
+                                   highlighted_text=highlighted, abstract_id=abstract_id)'''
+        return text
+    else:
+        return 'Something has gone terribly wrong.'
+
 @app.route('/delete_abstract/<int:post_id>', methods=['POST'])
 def delete_abstract(post_id):
     if request.method == 'POST':

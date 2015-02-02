@@ -47,12 +47,19 @@
                         <h3 class="panel-title">Search for a Previously Uploaded File</h3>
                     </div>
                     <div class="panel-body">
-             <img class="img-responsive img-thumbnail" src="/static/img/new_search_icon.png">
+                        <img class="img-responsive img-thumbnail" src="/static/img/new_search_icon.png">
                         <form action="/abstract_id_search" method="POST">
                             <textarea class="form-control" rows="1" style="resize:vertical;" name="id" id="id"
                                       placeholder="ID #"></textarea>
                             <br>
                             <button class="btn btn-primary btn-lg" type="submit">Jump to Abstract »</button>
+                        </form>
+                        <br>
+                        <form action="/abstract_keyword_search" method="POST">
+                            <textarea class="form-control" rows="1" style="resize:vertical;" name="keyword" id="keyword"
+                                      placeholder="Keyword"></textarea>
+                            <br>
+                            <button class="btn btn-primary btn-lg" type="submit">Find Abstracts »</button>
                         </form>
                     </div>
                 </div>
