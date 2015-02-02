@@ -22,6 +22,14 @@ abstracts.remove({})
 def index():
     return render_template('index.html')
 
+@app.route('/delete_abstract/<int:post_id>', methods=['POST'])
+def delete_abstract(post_id):
+    if request.method == 'POST':
+        abstracts.remove({"_id": post_id})
+        return render_template('deleteConfirmation.html')
+    else:
+        return 'Something has gone terribly wrong.'
+
 
 @app.route('/fileUploadWizard')
 def file_upload_wizard():
