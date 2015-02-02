@@ -14,7 +14,7 @@ $(function () {
                 '       {remove}\n' +
                 '       {cancel}\n' +
                 '       {browse}\n' +
-                '       <button type="button" class="btn btn-primary btn-next" id="submit"><i class="glyphicon glyphicon-upload"></i> Upload</button>\n' +
+                '       <button type="button" class="btn btn-primary btn-next kv-fileinput-upload" id="submit"><i class="glyphicon glyphicon-upload"></i> Upload</button>\n' +
                 '   </div>\n' +
                 '</div>'
         }
@@ -22,7 +22,8 @@ $(function () {
 
     $("#submit").click(function () {
 
-        var form_data = new FormData($('#uploadform')[0]);
+        var form_data = new FormData($('#uploadform')[0])
+
         $.ajax({
             type: 'POST',
             url: '/uploadajax',
@@ -35,8 +36,7 @@ $(function () {
         }).done(function (data) {
             var outputHtml = document.createElement('div');
             outputHtml.innerHTML = '<center><h1>Abstract #<span id="abstract_id"></span></h1></center><br><div class="row"> <div class="col-lg-6"><div class="panel panel-default"><div class="panel-heading"><center><h3 class="panel-title">Summary</h3></center></div><div class = "panel-body"><center><span id="hashtags2"></span></center></div></div></div><div class="col-lg-6"><div class="panel panel-default"><div class="panel-heading"><center><h3 class="panel-title">Original Abstract</h3></center></div><div class="panel-body"><div id="original_text"></div></div></div></div></div>'
-            for (var i = 0; i
-                < data['fileInfo'].length; i++) {
+            for (var i = 0; i < data['fileInfo'].length; i++) {
                 var outputBlock = outputHtml.cloneNode(true);
                 var outputHeader = outputBlock.childNodes;
                 var outputTitle = outputHeader[0].childNodes;

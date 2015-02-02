@@ -46,11 +46,15 @@
                         <div class="container theme-showcase" role="main">
                             <div class="jumbotron">
                                 <div class="row">
-                                    <div class="col-sm-8">
+                                    <div class="col-6">
+                                        <div class="alert alert-info" role="alert">
+       Select a file to upload. To upload multiple files, click "Browse" and hold the control key down while selecting them.
+      </div>
+
                                         <form id="uploadform" method=post
                                               enctype=multipart/form-data>
-                                            <input id="input-700" name="file[]" class="file-loading"
-                                                   data-upload-url="fileUploadWizard" type="file" multiple/>
+                                            <input id="input-700" name="file[]" class="file"
+                                                type="file" multiple/>
                                         </form>
 
                                     </div>
