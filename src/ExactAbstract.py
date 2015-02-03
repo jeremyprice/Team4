@@ -50,9 +50,10 @@ def abstract_keyword_search():
     else:
         return 'Something has gone terribly wrong.'
 
-@app.route('/delete_abstract/<int:post_id>', methods=['POST'])
-def delete_abstract(post_id):
+@app.route('/delete_abstract/', methods=['GET', 'POST'])
+def delete_abstract():
     if request.method == 'POST':
+        post_id = request.args.get('abstract_id');
         abstracts.remove({"_id": post_id})
         return render_template('deleteConfirmation.html')
     else:

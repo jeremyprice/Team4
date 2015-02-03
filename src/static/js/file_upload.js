@@ -2,6 +2,7 @@
  * Created by rodriga on 1/12/2015.
  */
 $(function () {
+
     $('#submit').click(function () {
 
         var form_data = new FormData($('#uploadform')[0]);
