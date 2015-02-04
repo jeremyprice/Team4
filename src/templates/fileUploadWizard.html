@@ -9,6 +9,12 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js" type="text/javascript"></script>
 
+
+<!--Kartik stuff-->
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css"/>
+
+
 <!--Begin Page Content-->
 
 <div class="container theme-showcase" role="main">
@@ -39,26 +45,28 @@
 
                         <div class="container theme-showcase" role="main">
                             <div class="jumbotron">
-                                <form id="uploadform" method=post
-                                      enctype=multipart/form-data>
-                                    <div class="row">
-                                        <div class="col-lg-4">
-                                            <p><input name="file" type="file" style="background-color:white">
-                                            </p></div>
-                                        <div class="col-lg-6">
-                                            <button class="btn btn-primary btn-next" id="submit" type="button"><i
-                                                    class="glyphicon glyphicon-upload"></i>Upload
-                                            </button>
-                                        </div>
-                                        </p></div>
-                                </form>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="alert alert-info" role="alert">
+       Select a file to upload. To upload multiple files, click "Browse" and hold the control key down while selecting them.
+      </div>
+
+                                        <form id="uploadform" method=post
+                                              enctype=multipart/form-data>
+                                            <input id="input-700" name="file[]" class="file"
+                                                type="file" multiple/>
+                                        </form>
+
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
+
                     <div class="step-pane sample-pane  alert" data-step="2">
                         <h4>Summary Results</h4>
-                        {% include "output.html" %}
+                        {% include "fileUploadOutput.html" %}
                     </div>
 
                     <div class="step-pane sample-pane alert" data-step="3">
@@ -78,6 +86,7 @@
     <script src="//www.fuelcdn.com/fuelux/3.4.0/js/fuelux.min.js"></script>
     <!-- jQuery needed for file upload -->
     <script src="/static/js/file_upload.js"></script>
+    <script src="/static/js/fileinput.min.js"></script>
 
 
 </div>
