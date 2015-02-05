@@ -7,6 +7,7 @@ from nltk.stem.porter import PorterStemmer
 from pymongo import MongoClient
 from pymongo import DESCENDING
 import json
+import os
 
 app = Flask(__name__)
 client = MongoClient()
@@ -63,6 +64,10 @@ def upldfile():
             if file and allowed_file(file.filename):
                 data = get_data(file)
                 allData['fileInfo'].append(data)
+                resultsfile = open('results.txt', 'r+')
+                jsonifieddata = json.dumps(allData)
+                resultsfile.write(jsonifieddata)
+                resultsfile.close()
         return jsonify(allData)
 
 

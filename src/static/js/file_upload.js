@@ -65,13 +65,17 @@ $(function () {
             }
             $('#myWizard').wizard('next');
 
-
+            $('#results').click(function () {
+                $('#link').text = data['fileInfo'][0]['link'];
+                $('#myWizard').wizard('next');
+            })
         }).fail(function (data) {
             alert('error!');
         });
 
 
     });
+
 
 });
 
