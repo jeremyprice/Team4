@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container theme-showcase" role="main">
     <div class="jumbotron">
-        <center><h1>Abstract #<span>{{abstract_id}}</span></h1></center>
+        <center><h1>Abstract #<span id="abstract_id">{{abstract_id}}</span></h1></center>
         <br>
 
         <div class="row">
@@ -14,6 +14,7 @@
                     </div>
                     <div class="panel-body">
                         <center>
+                            <span id="hashtags"></span>
                             <p>{{ ', '.join(hashtags) }}</p></center>
                     </div>
                 </div>
@@ -24,6 +25,7 @@
                         <center><h3 class="panel-title">Original Abstract</h3></center>
                     </div>
                     <div class="panel-body">
+                        <div id="original_text"></div>
                         {% for word in tokenized_text %}
                         {% if word in highlighted_text %}
                         <span style="background-color: #FFFF00">{{word}}</span>

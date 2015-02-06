@@ -45,7 +45,12 @@ def get_data(opened_file):
     keywords = get_keyword(decoded_text)
     highlighted_words = get_highlighted_words(tokenized_text, keywords)
     abstract_id = insert_document(tokenized_text, keywords, abstracts)
-    data = {'hashtags': keywords, 'text': decoded_text, 'tokenized_text': tokenized_text,
+    filedata={'abstract_id': abstract_id, 'filename': opened_file.filename, 'hashtags': keywords, 'original_abstract': decoded_text, }
+    resultsfile = open('results.txt', 'r+')
+    jsonifieddata = json.dumps(filedata)
+    resultsfile.write(jsonifieddata)
+    resultsfile.close()
+    data = {'filename': opened_file.filename, 'hashtags': keywords, 'text': decoded_text, 'tokenized_text': tokenized_text,
             'highlighted_text': highlighted_words, 'abstract_id': abstract_id}
     return data
 
@@ -64,10 +69,6 @@ def upldfile():
             if file and allowed_file(file.filename):
                 data = get_data(file)
                 allData['fileInfo'].append(data)
-                resultsfile = open('results.txt', 'r+')
-                jsonifieddata = json.dumps(allData)
-                resultsfile.write(jsonifieddata)
-                resultsfile.close()
         return jsonify(allData)
 
 

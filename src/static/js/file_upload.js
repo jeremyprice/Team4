@@ -34,35 +34,24 @@ $(function () {
             async: false,
             dataType: 'json'
         }).done(function (data) {
-            var outputHtml = document.createElement('div');
-            outputHtml.innerHTML = '<center><h1>Abstract #<span id="abstract_id"></span></h1></center><br><div class="row"> <div class="col-lg-6"><div class="panel panel-default"><div class="panel-heading"><center><h3 class="panel-title">Summary</h3></center></div><div class = "panel-body"><center><span id="hashtags2"></span></center></div></div></div><div class="col-lg-6"><div class="panel panel-default"><div class="panel-heading"><center><h3 class="panel-title">Original Abstract</h3></center></div><div class="panel-body"><div id="original_text"></div></div></div></div></div>'
+
             for (var i = 0; i < data['fileInfo'].length; i++) {
-                var outputBlock = outputHtml.cloneNode(true);
-                var outputHeader = outputBlock.childNodes;
-                var outputTitle = outputHeader[0].childNodes;
-                var outputId = outputTitle[0].childNodes;
-
-                outputId.item(1).textContent = data['fileInfo'][i]['abstract_id'];
-                var outputRow = outputHeader[2].childNodes;
-
-
-                var outputCol1 = outputRow[1].childNodes;
-                var summaryPanel = outputCol1[0].childNodes;
-
-                var summaryPanelBody = summaryPanel[1].childNodes;
-                summaryPanelBody.item(0).textContent = data['fileInfo'][i]['hashtags'];
-                var outputCol2 = outputRow[2].childNodes;
-                var outputPanel = outputCol2[0].childNodes;
-                var outputPanelBody = outputPanel[1].childNodes;
-
-
-                for (var j = 0; j < data['fileInfo'][i]['tokenized_text'].length; j++) {
-                    setOutputColor(data['fileInfo'][i]['tokenized_text'][j], data['fileInfo'][i]['highlighted_text'], outputPanelBody.item(0))
-                }
-                $('#output').append(outputBlock);
-
+                var fileRow = document.createElement('tr');
+                var fileID = document.createElement('td');
+                var fileName = document.createElement('td');
+                var fileLink = document.createElement('td');
+                fileID.textContent = data['fileInfo'][i]['abstract_id'];
+                fileName.textContent = data['fileInfo'][i]['filename'];
+                ;
+                fileLink.textContent = 'link' + i;
+                fileRow.appendChild(fileID);
+                fileRow.appendChild(fileName);
+                fileRow.appendChild(fileLink);
+                $('#fileList').append(fileRow);
+                createOutput(data, i);
 
             }
+
             $('#myWizard').wizard('next');
 
             $('#results').click(function () {
@@ -79,6 +68,14 @@ $(function () {
 
 });
 
+function createOutput(data, index) {
+    $('#hashtags').text(data['fileInfo'][index]['hashtags']);
+    $('#abstract_id').text(data['fileInfo'][index]['abstract_id']);
+
+    for (var i = 0; i < data['fileInfo'][index]['tokenized_text'].length; i++) {
+        setOutputColor(data['fileInfo'][index]['tokenized_text'][i], data['fileInfo'][index]['highlighted_text'])
+    }
+}
 /*
  This function takes in a word and the array of highlighted words and checks if the
  word matches any of the words in the highlighted words array.
