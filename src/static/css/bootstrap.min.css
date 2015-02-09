@@ -2493,7 +2493,7 @@ pre code{
 }
 
 table{
-	background-color:transparent
+	background-color:#fff
 }
 
 th{
@@ -5532,6 +5532,7 @@ a.list-group-item-danger.active,a.list-group-item-danger.active:hover,a.list-gro
 
 .panel>.table,.panel>.table-responsive>.table,.panel>.panel-collapse>.table{
 	margin-bottom:0
+
 }
 
 .panel>.table:first-child,.panel>.table-responsive:first-child>.table:first-child{

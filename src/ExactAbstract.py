@@ -45,12 +45,17 @@ def get_data(opened_file):
     keywords = get_keyword(decoded_text)
     highlighted_words = get_highlighted_words(tokenized_text, keywords)
     abstract_id = insert_document(tokenized_text, keywords, abstracts)
-    filedata={'abstract_id': abstract_id, 'filename': opened_file.filename, 'hashtags': keywords, 'original_abstract': decoded_text, }
-    resultsfile = open('results.txt', 'r+')
+    # data that will be stored in output file
+    filedata = {'abstract_id': abstract_id, 'filename': opened_file.filename, 'hashtags': keywords,
+                'original_abstract': decoded_text, }
+    # create a new file for each file uploaded with the data from the results
+    resultsfile = open('results' + '-' + str(abstract_id) + '.txt', 'w+')
     jsonifieddata = json.dumps(filedata)
     resultsfile.write(jsonifieddata)
     resultsfile.close()
-    data = {'filename': opened_file.filename, 'hashtags': keywords, 'text': decoded_text, 'tokenized_text': tokenized_text,
+    # data needed for webpage items to be populated
+    data = {'filename': opened_file.filename, 'hashtags': keywords, 'text': decoded_text,
+            'tokenized_text': tokenized_text,
             'highlighted_text': highlighted_words, 'abstract_id': abstract_id}
     return data
 

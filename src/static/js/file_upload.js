@@ -3,6 +3,7 @@
  */
 $(function () {
 
+    /* Setup file uploader*/
     $("#input-700").fileinput({
         dropZoneEnabled: false,
         layoutTemplates: {
@@ -20,6 +21,7 @@ $(function () {
         }
     });
 
+    /* Process uploaded files when user clicks the upload button*/
     $("#submit").click(function () {
 
         var form_data = new FormData($('#uploadform')[0])
@@ -35,6 +37,7 @@ $(function () {
             dataType: 'json'
         }).done(function (data) {
 
+            /* The code below creates the uploaded files table and populates it with the information necessary*/
             for (var i = 0; i < data['fileInfo'].length; i++) {
                 var fileRow = document.createElement('tr');
                 var fileID = document.createElement('td');
@@ -42,8 +45,7 @@ $(function () {
                 var fileLink = document.createElement('td');
                 fileID.textContent = data['fileInfo'][i]['abstract_id'];
                 fileName.textContent = data['fileInfo'][i]['filename'];
-                ;
-                fileLink.textContent = 'link' + i;
+                fileLink.innerHTML = '<a href=""> View Summary </a>';
                 fileRow.appendChild(fileID);
                 fileRow.appendChild(fileName);
                 fileRow.appendChild(fileLink);
@@ -52,10 +54,18 @@ $(function () {
 
             }
 
+            /* Automatically move the wizard to the next step to see the table*/
             $('#myWizard').wizard('next');
 
+            /* creates the output files when the user clicks 'next' on the second step of the wizard*/
             $('#results').click(function () {
-                $('#link').text = data['fileInfo'][0]['link'];
+                for (var i = 0; i < data['fileInfo'].length; i++) {
+                    var resultsFileLink = document.createElement('span');
+                    resultsFileLink.innerHTML = '<a href="">Results for <span id="original_filname"></span></a><br>';
+                    resultsFileLink.childNodes.item(0).childNodes.item(1).textContent = data['fileInfo'][i]['filename'];
+                    $('#resultsList').append(resultsFileLink);
+                }
+                /* Move to the last step of the wizard when the next button is clicked*/
                 $('#myWizard').wizard('next');
             })
         }).fail(function (data) {
