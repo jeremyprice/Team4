@@ -11,7 +11,6 @@ from nltk.probability import FreqDist
 import scipy.sparse
 import time
 
-from divergence import js_divergence
 import dit
 
 
