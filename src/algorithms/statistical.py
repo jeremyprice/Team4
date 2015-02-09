@@ -9,8 +9,10 @@ from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 from nltk.probability import FreqDist
 import scipy.sparse
+import time
 
 from divergence import js_divergence
+import dit
 
 
 def get_keyword(s, n=5):
@@ -28,12 +30,17 @@ def get_chi_squared(terms, clusters, matrix):
     words = {}
     for term in terms:
         words[term] = get_chi_squared_for_term(term, terms, clusters, matrix)
+
+    print("Chi values generated at " + str(time.clock()))
     return words
 
 
 def cluster_terms(terms, matrix):
+    time.clock()
+    print("Len terms: " + str(len(terms)))
     threshold = 0.95 * log(2)
     clusters = []
+    div_time = 0.0
 
     for term in terms:
         dict_index = terms[term]
@@ -50,13 +57,19 @@ def cluster_terms(terms, matrix):
                 row = matrix.getrow(dict_index)
                 arr2 = row.toarray()[0]
                 arr2[dict_index] = 0
-                div = js_divergence(arr, arr2)
+
+                pre_div = time.clock()
+                # div = js_divergence(arr, arr2)
+                div = 1 - dit.divergences.jensen_shannon_divergence_pmf([arr, arr2])
+                div_time += time.clock() - pre_div
 
                 if div > threshold:
                     cluster.add(term2)
 
         add_cluster(clusters, cluster)
 
+    print("Time spent diverging: " + str(div_time))
+    print("Terms clustered at " + str(time.clock()))
     return clusters
 
 
@@ -132,6 +145,7 @@ def get_coocurrence_matrix(sentences):
 
     mat = scipy.sparse.coo_matrix((data, (row, col)))
     coocurence_mat = mat.T * mat
+
     return terms, coocurence_mat
 
 
@@ -161,4 +175,44 @@ def filter_sentences(sentences, fraction_words_to_use=1):
 
 
 if __name__ == '__main__':
-    print(get_keyword("Puppies are cool. Puppies are awesome."))
+    print(get_keyword(
+        """Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras leo tortor, varius quis erat id, gravida
+        egestas sem. Suspendisse potenti. Ut erat ligula, gravida ut leo ut, mollis tincidunt urna. Maecenas vel purus
+        eu erat pharetra suscipit. Etiam scelerisque pharetra diam at porta. Sed pellentesque lorem vitae laoreet
+        porttitor. Suspendisse consequat, nulla eget eleifend vestibulum, ex arcu bibendum ipsum, in hendrerit turpis
+        mauris sed nisl."""))
+
+    #     Suspendisse lobortis erat libero, in tincidunt magna luctus vel. Praesent posuere leo nunc, lobortis consectetur
+    #     urna ornare ut. Donec iaculis, augue nec congue laoreet, dolor nisi convallis nulla, ac ultrices erat neque
+    #     maximus lacus. Vivamus porta dictum lorem, ac interdum metus sagittis id. Nulla egestas quam nibh. Pellentesque
+    #     auctor ex in mollis pulvinar. Nullam venenatis lacus efficitur ullamcorper malesuada. Nullam ac dolor a ligula
+    #     bibendum scelerisque. Quisque in consectetur ex. Phasellus mattis tellus sapien, sed venenatis nibh convallis
+    #     semper. Vivamus maximus condimentum cursus. Maecenas eu leo in massa condimentum congue. Vivamus tempor
+    #     malesuada ligula, a hendrerit sapien pharetra vitae. Nullam ornare, mi consectetur scelerisque auctor, odio nisi
+    #     feugiat eros, nec viverra magna massa ut augue.
+    #
+    #     Cras non est et felis scelerisque convallis. Sed rutrum ac orci sed efficitur. Curabitur felis leo, gravida at
+    #     pulvinar sit amet, tempus ut arcu. Vivamus tempor quam convallis magna feugiat lacinia. Nam sit amet eros eget
+    #     diam molestie iaculis. Fusce pulvinar, erat ut bibendum sagittis, purus lacus aliquet elit, eu porttitor tellus
+    #     tortor sed arcu. Nulla vitae malesuada magna. Nulla facilisi. Aenean tincidunt erat quis ultricies commodo.
+    #     Curabitur posuere luctus tortor, vel efficitur metus ullamcorper sed. Mauris tempus condimentum nibh, vel
+    #     laoreet purus sollicitudin sit amet. Fusce vitae rhoncus sapien, et finibus turpis.
+    #
+    #     Cras placerat ligula vel est tincidunt vehicula non sit amet metus. Etiam consectetur maximus auctor.
+    #     Suspendisse in libero condimentum, lacinia urna ac, tempus nibh. Donec consectetur lectus non mattis vestibulum.
+    #     Vivamus sed purus at enim convallis ornare a a nunc. Nunc non rhoncus arcu. Pellentesque congue arcu nunc, ut
+    #     gravida erat congue id.
+    #
+    #     Sed posuere lorem eget mi feugiat, feugiat commodo eros egestas. Nam placerat quam ac ullamcorper consequat.
+    #     Praesent ex elit, auctor id velit non, fermentum sollicitudin lectus. Quisque ullamcorper metus libero, vel
+    #     pretium tortor consectetur sed. Praesent semper mollis molestie. Integer aliquet pretium mi, in cursus sem
+    #     bibendum ut. Quisque at consequat eros. Morbi imperdiet erat eu consequat tempor. Etiam interdum porttitor est,
+    #     ac mollis dui tincidunt eu. Vestibulum urna mauris, dignissim aliquam scelerisque in, eleifend sed dolor. Nam
+    #     non eros ac elit luctus tristique. Sed pharetra risus id nisi egestas tincidunt. Nulla eget feugiat lectus.
+    #
+    #     Nulla efficitur sapien in mi dictum, vel varius erat feugiat. Integer egestas sit amet nibh quis euismod.
+    #     Vestibulum lacinia tempor ipsum, volutpat feugiat dolor. Morbi posuere risus quis lacinia posuere. Sed id
+    #     tellus augue. Aliquam massa odio, viverra ut nunc eu, tincidunt tincidunt magna. Nam in tellus nibh. Nullam
+    #     efficitur et urna vitae semper. Nunc eu est id ligula elementum ultricies. Vestibulum justo orci, aliquam in
+    #     rutrum eu, consectetur et felis. Nullam pharetra nulla felis, in scelerisque felis feugiat."""
+    # ))
