@@ -8,65 +8,78 @@
         <center>
             <h1>What would you like to do?</h1>
             <br>
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Upload a File</h3>
-                    </div>
-                    <div class="panel-body">
-                       <img class="img-responsive img-thumbnail" src="/static/img/upload_icon.png">
-                        <br>
-                        <p>Select a text file to summarize</p>
-                        <br>
-                          <a href="fileUploadWizard"><button class="btn btn-primary btn-lg">Start »</button></a>
-                    </div>
-                </div>
-            </div>
 
-            <div class="col-lg-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Insert Text Manually</h3>
-                    </div>
-                    <div class="panel-body">
-                         <img class="img-responsive img-thumbnail" src="/static/img/new_keyboard_icon.png">
-                        <form action="/keyword_output" method="POST">
-                            <textarea class="form-control" rows="3" style="resize:vertical;" name="text" id="text"
-                                      placeholder="Enter your text here"></textarea>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Upload a File</h3>
+                        </div>
+                        <div class="panel-body-home">
+                            <img class="img-responsive img-thumbnail" src="/static/img/upload_icon.png">
                             <br>
-                            <button class="btn btn-primary btn-lg" type="submit">Submit »</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+                            <br>
 
-            <div class="col-lg-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Search for a Previously Uploaded File</h3>
-                    </div>
-                    <div class="panel-body">
-                        <img class="img-responsive img-thumbnail" src="/static/img/new_search_icon.png">
-                        <form action="/abstract_id_search" method="POST">
-                            <textarea class="form-control" rows="1" style="resize:vertical;" name="id" id="id"
-                                      placeholder="ID #"></textarea>
+                            <p>Select a text file to summarize</p>
                             <br>
-                            <button class="btn btn-primary btn-lg" type="submit">Jump to Abstract »</button>
-                        </form>
-                        <br>
-                        <form action="/abstract_keyword_search" method="POST">
-                            <textarea class="form-control" rows="1" style="resize:vertical;" name="keyword" id="keyword"
-                                      placeholder="Keyword"></textarea>
                             <br>
-                            <button class="btn btn-primary btn-lg" type="submit">Find Abstracts »</button>
-                        </form>
+                            <a href="fileUploadWizard">
+                                <button class="btn btn-primary btn-lg">Start »</button>
+                            </a>
+                        </div>
                     </div>
                 </div>
+
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Insert Text Manually</h3>
+                        </div>
+                        <div class="panel-body-home">
+                            <img class="img-responsive img-thumbnail" src="/static/img/new_keyboard_icon.png">
+
+                            <form action="/keyword_output" method="POST">
+                                <textarea class="form-control" rows="3" style="resize:vertical;" name="text" id="text"
+                                          placeholder="Enter your text here"></textarea>
+                                <br>
+                                <br>
+                                <button class="btn btn-primary btn-lg" type="submit">Submit »</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Search for a Previously Uploaded File</h3>
+                        </div>
+                        <div class="panel-body-home">
+                            <img class="img-responsive img-thumbnail" src="/static/img/new_search_icon.png">
+
+                            <form action="/abstract_id_search" method="POST">
+                                <textarea class="form-control" rows="1" style="resize:vertical;" name="id" id="jump_id"
+                                          placeholder="ID #"></textarea>
+                                <br>
+                                <button class="btn btn-primary" type="submit">Jump to Abstract »</button>
+                            </form>
+                            <br>
+
+                            <form action="/abstract_keyword_search" method="POST">
+                                <textarea class="form-control" rows="1" style="resize:vertical;" name="keyword"
+                                          id="keyword"
+                                          placeholder="Keyword"></textarea>
+                                <br>
+                                <button class="btn btn-primary" type="submit">Find Abstracts »</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-        </div>
-      </center>
+        </center>
     </div>
+
 </div>
 
 {% endblock %}

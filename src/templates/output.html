@@ -3,38 +3,38 @@
 {% block content %}
 <div class="container theme-showcase" role="main">
     <div class="jumbotron">
-            <center><h1>Abstract #<span id="abstract_id">{{abstract_id}}</span></h1></center>
-            <br>
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <center><h3 class="panel-title">Summary</h3></center>
-                        </div>
-                        <div class="panel-body">
-                           <center><span id="hashtags"></span>
-                            <p>{{ ', '.join(hashtags) }}</p></center>
-                        </div>
+        <center><h1>Abstract #<span>{{abstract_id}}</span></h1></center>
+        <br>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <center><h3 class="panel-title">Summary</h3></center>
                     </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <center><h3 class="panel-title">Original Abstract</h3></center>
-                        </div>
-                        <div class="panel-body">
-                            <div id="original_text"></div>
-                            {% for word in tokenized_text %}
-                            {% if word in highlighted_text %}
-                            <span style="background-color: #FFFF00">{{word}}</span>
-                            {% else %}
-                            <span style="background-color: #ffffff">{{word}}</span>
-                            {% endif %}
-                            {% endfor %}
-                        </div>
+                    <div class="panel-body">
+                        <center>
+                            <p>{{ ', '.join(hashtags) }}</p></center>
                     </div>
                 </div>
             </div>
+            <div class="col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <center><h3 class="panel-title">Original Abstract</h3></center>
+                    </div>
+                    <div class="panel-body">
+                        {% for word in tokenized_text %}
+                        {% if word in highlighted_text %}
+                        <span style="background-color: #FFFF00">{{word}}</span>
+                        {% else %}
+                        <span style="background-color: #ffffff">{{word}}</span>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="panel panel-default">
                     <div class="panel-body">
@@ -46,6 +46,7 @@
                     </div>
                 </div>
             </div>
+        </div>
     </div>
 </div>
 
