@@ -14,10 +14,11 @@ This project is written entirely in Python, and currently has the following depe
 * Numpy 1.9.0
 * Scipy 0.14.0
 * Flask
+* dit
 
 To install the dependencies run (in a virtualenv or otherwise):
 
-`pip3 install nltk numpy scipy flask`
+`pip3 install nltk numpy scipy flask git+https://github.com/dit/dit/#egg=dit`
 
 ## Usage
 
