@@ -8,6 +8,7 @@ from nltk.stem.porter import PorterStemmer
 from pymongo import MongoClient
 from pymongo import DESCENDING
 import json
+import os
 
 app = Flask(__name__)
 client = MongoClient()
@@ -47,7 +48,6 @@ def abstract_keyword_search():
         cursor = abstracts.find({})
         output = []
         stemmer = PorterStemmer()
-        urlStr = '/'
         if cursor.count() == 0:
             return 'There are no abstracts!'
         else:
@@ -55,7 +55,7 @@ def abstract_keyword_search():
                 keywords = cursor[x]['keywords']
                 if any(stemmer.stem(keyword.lower()) in s for s in keywords):
                     output.append([str(cursor[x]['_id']), cursor[x]['keywords']])
-        return render_template('keywordSearchOutput.html', output=output, urlStr=urlStr)
+        return render_template('keywordSearchOutput.html', output=output)
     else:
         return 'Something has gone terribly wrong.'
 
@@ -94,7 +94,17 @@ def get_data(opened_file):
     keywords = get_keyword(decoded_text)
     highlighted_words = get_highlighted_words(tokenized_text, keywords)
     abstract_id = insert_document(tokenized_text, keywords, abstracts)
-    data = {'hashtags': keywords, 'text': decoded_text, 'tokenized_text': tokenized_text,
+    # data that will be stored in output file
+    filedata = {'abstract_id': abstract_id, 'filename': opened_file.filename, 'hashtags': keywords,
+                'original_abstract': decoded_text, }
+    # create a new file for each file uploaded with the data from the results
+    resultsfile = open('results' + '-' + str(abstract_id) + '.txt', 'w+')
+    jsonifieddata = json.dumps(filedata)
+    resultsfile.write(jsonifieddata)
+    resultsfile.close()
+    # data needed for webpage items to be populated
+    data = {'filename': opened_file.filename, 'hashtags': keywords, 'text': decoded_text,
+            'tokenized_text': tokenized_text,
             'highlighted_text': highlighted_words, 'abstract_id': abstract_id}
     return data
 
