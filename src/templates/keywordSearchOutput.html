@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container theme-showcase" role="main">
+    <div class="jumbotron" id="output">
+        <table class="table table-striped" id="fileList">
+            <tr>
+                <th>Abstract ID</th>
+                <th>Keywords</th>
+                <th>Output Link</th>
+            </tr>
+            {% for item in output %}
+            <tr>
+                <th>{{item[0]}}</th>
+                <th>
+                {% for x in range(0, item[1]|length) %}
+                    {% if x+1 == item[1]|length %}
+                    {{item[1][x]}}
+                    {% else %}
+                    {{item[1][x]}},
+                    {% endif %}
+                {% endfor %}
+                </th>
+                <th><a href="{{item[0]}}">View Abstract</a></th>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+{% endblock %}

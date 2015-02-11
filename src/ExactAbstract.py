@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import request
 from flask import render_template, jsonify
+from flask.helpers import url_for
 from algorithms.statistical import get_keyword
 from nltk.tokenize import word_tokenize
 from nltk.stem.porter import PorterStemmer
@@ -15,15 +16,64 @@ abstracts = db.abstracts
 ALLOWED_EXTENSIONS = set(['txt'])
 
 # REMOVE BEFORE COMMIT - Clears out collection of abstracts
-abstracts.remove({})
-
+# abstracts.remove({})
+def parse_id(s_id):
+    try:
+        return int(s_id or 0)
+    except ValueError:
+        return -1
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
+@app.route('/<abstract_id>')
+def jump_to_index(abstract_id):
+    cursor = abstracts.find({'_id': parse_id(abstract_id)})
+    if cursor.count() == 0:
+        return 'There are no abstracts with that ID!'
+    else:
+        tokenized_text = cursor[0]['text']
+        keywords = cursor[0]['keywords']
+        highlighted = get_highlighted_words(tokenized_text, keywords)
+        abstract_id = cursor[0]['_id']
+        return render_template('output.html', hashtags=keywords, tokenized_text=tokenized_text,
+                               highlighted_text=highlighted, abstract_id=abstract_id)
 
-@app.route('/fileUploadWizard')
+@app.route('/abstract_keyword_search', methods=['POST'])
+def abstract_keyword_search():
+    if request.method == 'POST':
+        keyword = request.form['keyword']
+        cursor = abstracts.find({})
+        output = []
+        stemmer = PorterStemmer()
+        urlStr = '/'
+        if cursor.count() == 0:
+            return 'There are no abstracts!'
+        else:
+            for x in range(0, cursor.count()):
+                keywords = cursor[x]['keywords']
+                if any(stemmer.stem(keyword.lower()) in s for s in keywords):
+                    output.append([str(cursor[x]['_id']), cursor[x]['keywords']])
+        return render_template('keywordSearchOutput.html', output=output, urlStr=urlStr)
+    else:
+        return 'Something has gone terribly wrong.'
+
+@app.route('/delete_abstract/', methods=['GET', 'POST'])
+def delete_abstract():
+    if request.method == 'POST':
+        post_id = request.form.get('abstract_id')
+        cursor = abstracts.find({'_id': parse_id(post_id)})
+        if cursor.count() == 0:
+            return 'There was an error deleting the abstract'
+        else:
+            abstracts.remove({"_id": parse_id(post_id)})
+            return render_template('deleteConfirmation.html')
+    else:
+        return 'Something has gone terribly wrong.'
+
+
+@app.route('/fileUploadWizard', methods=['GET', 'POST'])
 def file_upload_wizard():
     return render_template('fileUploadWizard.html')
 
@@ -56,11 +106,14 @@ def allowed_file(filename):
 
 @app.route('/uploadajax', methods=['POST'])
 def upldfile():
+    allData = {'fileInfo': []}
     if request.method == 'POST':
-        file = request.files['file']
-        if file and allowed_file(file.filename):
-            data= get_data(file)
-            return jsonify(data)
+        files = request.files.getlist('file[]')
+        for file in files:
+            if file and allowed_file(file.filename):
+                data = get_data(file)
+                allData['fileInfo'].append(data)
+        return jsonify(allData)
 
 
 def get_highlighted_words(text, keys):
@@ -96,14 +149,6 @@ def keyword_output():
                                highlighted_text=highlighted, abstract_id=abstract_id)
     else:
         return 'Something has gone terribly wrong.'
-
-
-def parse_id(s_id):
-    try:
-        return int(s_id)
-    except ValueError:
-        return -1
-
 
 @app.route('/abstract_id_search', methods=['POST'])
 def abstract_id_search():
