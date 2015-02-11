@@ -1,6 +1,6 @@
 /**
- * Created by rodriga on 1/12/2015.
- */
+* Created by rodriga on 1/12/2015.
+*/
 $(function () {
 
     /* Setup file uploader*/
@@ -45,7 +45,7 @@ $(function () {
                 var fileLink = document.createElement('td');
                 fileID.textContent = data['fileInfo'][i]['abstract_id'];
                 fileName.textContent = data['fileInfo'][i]['filename'];
-                fileLink.innerHTML = '<a href=""> View Summary </a>';
+                fileLink.innerHTML = '<a href="' + data['fileInfo'][i]['abstract_id'] + '"> View Summary </a>';
                 fileRow.appendChild(fileID);
                 fileRow.appendChild(fileName);
                 fileRow.appendChild(fileLink);
@@ -87,13 +87,13 @@ function createOutput(data, index) {
     }
 }
 /*
- This function takes in a word and the array of highlighted words and checks if the
- word matches any of the words in the highlighted words array.
+This function takes in a word and the array of highlighted words and checks if the
+word matches any of the words in the highlighted words array.
 
- If it does it styles the word to be highlighted and appends it to the output text,
- if it doesn't, it styles the word normally and
- appends it to the output text.
- */
+If it does it styles the word to be highlighted and appends it to the output text,
+if it doesn't, it styles the word normally and
+appends it to the output text.
+*/
 function setOutputColor(word, highlightedWords, span) {
     var highlight_flag = 0;
     for (var i = 0; i < highlightedWords.length; i++) {
@@ -120,5 +120,3 @@ function setOutputColor(word, highlightedWords, span) {
 
 
 }
-
-
