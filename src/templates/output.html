@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container theme-showcase" role="main">
     <div class="jumbotron">
-        <center><h1>Abstract #<span>{{abstract_id}}</span></h1></center>
+        <center><h1>Abstract #<span id="abstract_id">{{abstract_id}}</span></h1></center>
         <br>
 
         <div class="row">
@@ -39,6 +39,7 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <form action="/delete_abstract/" method="POST">
+                            <input type="hidden" name="abstract_id" value="{{abstract_id}}" />
                             <center>
                              <button class="btn btn-primary btn-lg" type="submit" >Delete Abstract »</button>
                             </center>

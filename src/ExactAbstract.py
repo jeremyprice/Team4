@@ -17,7 +17,11 @@ ALLOWED_EXTENSIONS = set(['txt'])
 
 # REMOVE BEFORE COMMIT - Clears out collection of abstracts
 # abstracts.remove({})
-
+def parse_id(s_id):
+    try:
+        return int(s_id or 0)
+    except ValueError:
+        return -1
 
 @app.route('/')
 def index():
@@ -58,9 +62,13 @@ def abstract_keyword_search():
 @app.route('/delete_abstract/', methods=['GET', 'POST'])
 def delete_abstract():
     if request.method == 'POST':
-        post_id = request.args.get('abstract_id')
-        abstracts.remove({"_id": post_id})
-        return render_template('deleteConfirmation.html')
+        post_id = request.form.get('abstract_id')
+        cursor = abstracts.find({'_id': parse_id(post_id)})
+        if cursor.count() == 0:
+            return 'There was an error deleting the abstract'
+        else:
+            abstracts.remove({"_id": parse_id(post_id)})
+            return render_template('deleteConfirmation.html')
     else:
         return 'Something has gone terribly wrong.'
 
@@ -141,14 +149,6 @@ def keyword_output():
                                highlighted_text=highlighted, abstract_id=abstract_id)
     else:
         return 'Something has gone terribly wrong.'
-
-
-def parse_id(s_id):
-    try:
-        return int(s_id)
-    except ValueError:
-        return -1
-
 
 @app.route('/abstract_id_search', methods=['POST'])
 def abstract_id_search():
