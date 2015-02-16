@@ -220,6 +220,53 @@ def abstract_id_search():
     else:
         return 'Something has gone terribly wrong.'
 
+# API example calls
+@app.route('/api/abstracts/<abstract_id>')
+def api_jump_to_index(abstract_id):
+    cursor = abstracts.find({'_id': parse_id(abstract_id)})
+    results = {}
+    status_code = 200
+    headers = {'Content-Type':'application/json'}
+    if cursor.count() == 0:
+        results['error'] = 'There are no abstracts with that ID!'
+        status_code = 404
+    else:
+        result = {}
+        result['tokenized_text'] = cursor[0]['text']
+        result['keywords'] = cursor[0]['keywords']
+        result['highlighted'] = get_highlighted_words(result['tokenized_text'], result['keywords'])
+        result['abstract_id'] = cursor[0]['_id']
+        results['results'] = [result]
+    return (json.dumps(results), status_code, headers)
+
+@app.route('/api/upload', methods=['POST'])
+def api_upload():
+    results = {}
+    status_code = 200
+    headers = {'Content-Type':'application/json'}
+    if request.method == 'POST':
+        parsed_request = request.get_json()
+        if 'files' not in parsed_request:
+            status_code = 400
+            results['error'] = 'Unrecognized JSON object in request'
+            return (json.dumps(results), status_code, headers)
+        processed = []
+        for file_contents in parsed_request['files']:
+            tokenized_text = word_tokenize(file_contents)
+            keywords = get_keyword(file_contents)
+            highlighted_words = get_highlighted_words(tokenized_text, keywords)
+            abstract_id = insert_document(tokenized_text, keywords, abstracts)
+            result = {}
+            result['tokenized_text'] = tokenized_text
+            result['keywords'] = keywords
+            result['highlighted'] = highlighted_words
+            result['abstract_id'] = abstract_id
+            processed.append(result)
+        results['results'] = processed
+    else: # unknown requests type
+        results['error'] = 'Method Not Allowed'
+        status_code = 405
+    return (json.dumps(results), status_code, headers)
 
 if __name__ == '__main__':
     app.run(debug=True)
