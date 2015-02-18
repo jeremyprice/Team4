@@ -15,13 +15,13 @@
                 <th>
                 {% for x in range(0, item[1]|length) %}
                     {% if x+1 == item[1]|length %}
-                    {{item[1][x]}}
+                    <a href="/single_keyword_search/{{item[1][x]}}">{{item[1][x]}}</a>
                     {% else %}
-                    {{item[1][x]}},
+                    <a href="/single_keyword_search/{{item[1][x]}}">{{item[1][x]}}</a>,
                     {% endif %}
                 {% endfor %}
                 </th>
-                <th><a href="{{item[0]}}">View Abstract</a></th>
+                <th><a href="/{{item[0]}}">View Abstract</a></th>
             </tr>
             {% endfor %}
         </table>

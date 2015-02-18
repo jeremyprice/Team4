@@ -59,6 +59,20 @@ def abstract_keyword_search():
     else:
         return 'Something has gone terribly wrong.'
 
+@app.route('/single_keyword_search/<keyword>')
+def single_keyword_search(keyword):
+    cursor = abstracts.find({})
+    output = []
+    stemmer = PorterStemmer()
+    if cursor.count() == 0:
+        return 'There are no abstracts!'
+    else:
+        for x in range(0, cursor.count()):
+            keywords = cursor[x]['keywords']
+            if any(stemmer.stem(keyword.lower()) in s for s in keywords):
+                output.append([str(cursor[x]['_id']), cursor[x]['keywords']])
+    return render_template('keywordSearchOutput.html', output=output)
+
 @app.route('/delete_abstract/', methods=['GET', 'POST'])
 def delete_abstract():
     if request.method == 'POST':

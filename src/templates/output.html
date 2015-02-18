@@ -15,7 +15,12 @@
                     <div class="panel-body">
                         <center>
                             <span id="hashtags"></span>
-                            <p>{{ ', '.join(hashtags) }}</p></center>
+                            <p>
+                                {% for word in hashtags %}
+                                <a href="/single_keyword_search/{{word}}">{{word}}</a>
+                                {% endfor %}
+                            </p>
+                        </center>
                     </div>
                 </div>
             </div>
