@@ -1,6 +1,6 @@
 from flask import Flask
 from flask import request
-from flask import render_template, jsonify
+from flask import render_template, jsonify, make_response
 from flask.helpers import url_for
 from algorithms.statistical import get_keyword
 from nltk.tokenize import word_tokenize
@@ -9,6 +9,7 @@ from pymongo import MongoClient
 from pymongo import DESCENDING
 import json
 import os
+import os.path
 
 app = Flask(__name__)
 client = MongoClient()
@@ -77,6 +78,17 @@ def delete_abstract():
 def file_upload_wizard():
     return render_template('fileUploadWizard.html')
 
+
+@app.route('/downloads/<run>')
+def downloadResults(run):
+    # Check for valid file and assign it to `inbound_file`
+    # data = upldfile()
+    fname = "results-" + run + ".txt"
+    f = open(os.path.dirname(__file__) + "/../" + fname)
+    # file = open("../results-" + run + ".txt", "r")
+    response = make_response(f.read())
+    response.headers["Content-Disposition"] = "attachment; filename=" + fname
+    return response
 
 @app.route('/keywords', methods=['POST'])
 def get_keywords():
