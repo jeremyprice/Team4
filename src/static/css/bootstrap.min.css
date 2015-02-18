@@ -1180,7 +1180,7 @@ img{
 	display:inline-block;
 	width:100% \9;
 	max-width:100%;
-	height:auto;
+	height:200px;
 	padding:4px;
 	line-height:1.42857143;
 	background-color:#fff;
@@ -4218,10 +4218,9 @@ textarea.input-group-sm>.form-control,textarea.input-group-sm>.input-group-addon
 	border-width:1px 0 0
 }
 
-.navbar-brand{
+.navbar-logo{
 	float:left;
-	height:50px;
-	padding:15px 15px;
+	height:75px;
 	font-size:18px;
 	line-height:20px
 }
@@ -4988,7 +4987,7 @@ a.list-group-item.active>.badge,.nav-pills>.active>a>.badge{
 	}
 
 	.jumbotron h1,.jumbotron .h1{
-		font-size:63px
+		font-size:55px
 	}
 
 }
@@ -5466,7 +5465,7 @@ a.list-group-item-danger.active,a.list-group-item-danger.active:hover,a.list-gro
 }
 
 .panel-body-home {
-     height: 550px;
+     height: 475px;
      padding: 15px;
 }
 
@@ -6764,4 +6763,5 @@ button.close{
 
 }
 
+}
 }

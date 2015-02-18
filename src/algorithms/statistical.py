@@ -29,14 +29,11 @@ def get_chi_squared(terms, clusters, matrix):
     words = {}
     for term in terms:
         words[term] = get_chi_squared_for_term(term, terms, clusters, matrix)
-
-    print("Chi values generated at " + str(time.clock()))
     return words
 
 
 def cluster_terms(terms, matrix):
     time.clock()
-    print("Len terms: " + str(len(terms)))
     threshold = 0.95 * log(2)
     clusters = []
     div_time = 0.0
@@ -67,8 +64,6 @@ def cluster_terms(terms, matrix):
 
         add_cluster(clusters, cluster)
 
-    print("Time spent diverging: " + str(div_time))
-    print("Terms clustered at " + str(time.clock()))
     return clusters
 
 
