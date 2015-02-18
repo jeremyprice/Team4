@@ -61,7 +61,7 @@ $(function () {
             $('#results').click(function () {
                 for (var i = 0; i < data['fileInfo'].length; i++) {
                     var resultsFileLink = document.createElement('span');
-                    resultsFileLink.innerHTML = '<a href="">Results for <span id="original_filname"></span></a><br>';
+                    resultsFileLink.innerHTML = '<a href="downloads/' + data['fileInfo'][i]['abstract_id'] + '"> Results for <span id="original_filename"></span></a><br>';
                     resultsFileLink.childNodes.item(0).childNodes.item(1).textContent = data['fileInfo'][i]['filename'];
                     $('#resultsList').append(resultsFileLink);
                 }
