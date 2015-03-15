@@ -38,8 +38,10 @@ def jump_to_index(abstract_id):
         keywords = cursor[0]['keywords']
         highlighted = get_highlighted_words(tokenized_text, keywords)
         abstract_id = cursor[0]['_id']
+        related_abstracts = get_related_abstracts(abstract_id, keywords)
         return render_template('output.html', hashtags=keywords, tokenized_text=tokenized_text,
-                               highlighted_text=highlighted, abstract_id=abstract_id)
+                               highlighted_text=highlighted, abstract_id=abstract_id,
+                               related_abstracts=related_abstracts)
 
 @app.route('/abstract_keyword_search', methods=['POST'])
 def abstract_keyword_search():
@@ -160,6 +162,17 @@ def insert_document(text, keywords, target_collection):
         target_collection.insert(document)
         return seq
 
+def get_related_abstracts(abstract_id, abstract_keywords):
+    ids = []
+    cursor = abstracts.find({})
+    if cursor.count() == 0:
+        return ids
+    else:
+        for x in range(0, cursor.count()):
+            keywords = cursor[x]['keywords']
+            if all(word in abstract_keywords for word in keywords) and cursor[x]['_id'] != abstract_id:
+                ids.append(cursor[x]['_id'])
+        return ids
 
 @app.route('/keyword_output', methods=['POST'])
 def keyword_output():
@@ -169,8 +182,10 @@ def keyword_output():
         keywords = get_keyword(text)
         highlighted = get_highlighted_words(tokenized_text, keywords)
         abstract_id = insert_document(tokenized_text, keywords, abstracts)
+        related_abstracts = get_related_abstracts(abstract_id, keywords)
         return render_template('output.html', hashtags=keywords, tokenized_text=tokenized_text,
-                               highlighted_text=highlighted, abstract_id=abstract_id)
+                               highlighted_text=highlighted, abstract_id=abstract_id,
+                               related_abstracts=related_abstracts)
     else:
         return 'Something has gone terribly wrong.'
 
@@ -186,8 +201,10 @@ def abstract_id_search():
             keywords = cursor[0]['keywords']
             highlighted = get_highlighted_words(tokenized_text, keywords)
             abstract_id = cursor[0]['_id']
+            related_abstracts = get_related_abstracts(abstract_id, keywords)
             return render_template('output.html', hashtags=keywords, tokenized_text=tokenized_text,
-                                   highlighted_text=highlighted, abstract_id=abstract_id)
+                                   highlighted_text=highlighted, abstract_id=abstract_id,
+                                   related_abstracts=related_abstracts)
     else:
         return 'Something has gone terribly wrong.'
 
