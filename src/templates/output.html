@@ -13,10 +13,18 @@
                     </div>
                     <div class="panel-body">
                         <center>
+                            <h3>Keywords</h3>
                             <span id="hashtags"></span>
                             <p>
                                 {% for word in hashtags %}
                                 <a href="/single_keyword_search/{{word}}">{{word}}</a>
+                                {% endfor %}
+                            </p>
+                            <span id="related"></span>
+                            <h3>Related Abstracts</h3>
+                            <p>
+                                {% for id in related_abstracts %}
+                                <a href="/{{id}}">{{id}}</a>
                                 {% endfor %}
                             </p>
                         </center>
