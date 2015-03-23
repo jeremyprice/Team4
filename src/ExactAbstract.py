@@ -33,7 +33,7 @@ def index():
 def jump_to_index(abstract_id):
     cursor = abstracts.find({'_id': parse_id(abstract_id)})
     if cursor.count() == 0:
-        return 'There are no abstracts with that ID!'
+        return render_template('noAbstractFoundError.hml')
     else:
         tokenized_text = cursor[0]['text']
         keywords = cursor[0]['keywords']
@@ -52,7 +52,7 @@ def abstract_keyword_search():
         output = []
         stemmer = PorterStemmer()
         if cursor.count() == 0:
-            return 'There are no abstracts!'
+            return render_template('noAbstractFoundError.html')
         else:
             for x in range(0, cursor.count()):
                 keywords = cursor[x]['keywords']
@@ -68,7 +68,7 @@ def single_keyword_search(keyword):
     output = []
     stemmer = PorterStemmer()
     if cursor.count() == 0:
-        return 'There are no abstracts!'
+        return render_template('noAbstractFoundError.html')
     else:
         for x in range(0, cursor.count()):
             keywords = cursor[x]['keywords']
@@ -207,7 +207,7 @@ def abstract_id_search():
         id = request.form['id']
         cursor = abstracts.find({'_id': parse_id(id)})
         if cursor.count() == 0:
-            return 'There are no abstracts with that ID!'
+            return render_template('noAbstractFoundError.html')
         else:
             tokenized_text = cursor[0]['text']
             keywords = cursor[0]['keywords']
