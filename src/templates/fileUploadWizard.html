@@ -1,4 +1,3 @@
-
 <!--FuelUX styling dependencies-->
 
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
@@ -36,10 +35,7 @@
                     <li data-step="3"><span class="badge">3</span>Save Summary<span class="chevron"></span>
                     </li>
                 </ul>
-                <div class="actions">
-                    <button class="btn btn-default btn-prev"><span class="glyphicon glyphicon-arrow-left"></span>Prev
-                    </button>
-                </div>
+
 
                 <div class="step-content">
                     <div class="step-pane active sample-pane alert" data-step="1">
@@ -54,6 +50,9 @@
                                             Select a file to upload. To upload multiple files, click "Browse" and hold
                                             the control key down while selecting them.
                                         </div>
+                                        <center>
+                                                 <div class="loader" id="myLoader" data-initialize="loader"></div>
+                                            </center>
                                         <form id="uploadform" method=post
                                               enctype=multipart/form-data>
                                             <input id="input-700" name="file[]" class="file"
@@ -82,6 +81,12 @@
                         <br>
 
                         <div id="resultsList"></div>
+                        <br>
+                        <br>
+                        <div>
+                        <input type="button" value="« Back" onClick="$('#myWizard').wizard('previous')" class="btn btn-primary btn-default" style="float:left" id="resultsBackBtn">
+                              <a href ="/"  class="btn btn-primary btn-default" style="float: right"> Finish</a>
+                            </div>
                     </div>
                 </div>
             </div>

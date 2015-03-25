@@ -3,6 +3,8 @@
  */
 $(function () {
 
+    $('#myLoader').hide();
+
     /* Setup file uploader*/
     $("#input-700").fileinput({
         dropZoneEnabled: false,
@@ -30,6 +32,7 @@ $(function () {
         }
 
 
+        $('#myLoader').show();
         var form_data = new FormData($('#uploadform')[0])
 
         $.ajax({
@@ -42,7 +45,7 @@ $(function () {
             async: false,
             dataType: 'json'
         }).done(function (data) {
-
+            $('#myLoader').loader('destroy');
             /* The code below creates the uploaded files table and populates it with the information necessary*/
             for (var i = 0; i < data['fileInfo'].length; i++) {
                 var fileRow = document.createElement('tr');
@@ -65,14 +68,19 @@ $(function () {
 
             /* creates the output files when the user clicks 'next' on the second step of the wizard*/
             $('#results').click(function () {
-                for (var i = 0; i < data['fileInfo'].length; i++) {
-                    var resultsFileLink = document.createElement('span');
-                    resultsFileLink.innerHTML = '<a href="downloads/' + data['fileInfo'][i]['abstract_id'] + '"> Results for <span id="original_filename"></span></a><br>';
-                    resultsFileLink.childNodes.item(0).childNodes.item(1).textContent = data['fileInfo'][i]['filename'];
-                    $('#resultsList').append(resultsFileLink);
+
+                if ($('#resultsList').contents().length == 0) {
+                    for (var i = 0; i < data['fileInfo'].length; i++) {
+                        var resultsFileLink = document.createElement('span');
+                        resultsFileLink.innerHTML = '<a href="downloads/' + data['fileInfo'][i]['abstract_id'] + '"> Results for <span id="original_filename"></span></a><br>';
+                        resultsFileLink.childNodes.item(0).childNodes.item(1).textContent = data['fileInfo'][i]['filename'];
+                        $('#resultsList').append(resultsFileLink);
+
+                    }
                 }
                 /* Move to the last step of the wizard when the next button is clicked*/
                 $('#myWizard').wizard('next');
+
             })
         }).fail(function (data) {
             alert('error!');
