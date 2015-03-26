@@ -15,17 +15,26 @@
                         <center>
                             <h3>Keywords</h3>
                             <span id="hashtags"></span>
+
                             <p>
                                 {% for word in hashtags %}
                                 <a href="/single_keyword_search/{{word}}">{{word}}</a>
                                 {% endfor %}
                             </p>
                             <span id="related"></span>
+
                             <h3>Related Abstracts</h3>
+
                             <p>
-                                {% for id in related_abstracts %}
-                                <a href="/{{id}}">{{id}}</a>
-                                {% endfor %}
+                                {% if related_abstracts|length == 0 %}
+
+                            <p>none</p>
+                            {% else %}
+                            {% for id in related_abstracts %}
+                            <a href="/{{id}}">{{id}}</a>
+
+                            {% endfor %}
+                            {% endif %}
                             </p>
                         </center>
                     </div>
@@ -53,10 +62,13 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <form action="/delete_abstract/" method="POST">
-                            <input type="hidden" name="abstract_id" value="{{abstract_id}}" />
-                             <button class="btn btn-primary btn-default" type="submit" style="float:right">Delete Abstract »</button>
+                            <input type="hidden" name="abstract_id" value="{{abstract_id}}"/>
+                            <button class="btn btn-primary btn-default" type="submit" style="float:right">Delete
+                                Abstract »
+                            </button>
                         </form>
-                        <form><input type="button" value="« Back" onClick="history.go(-1);return true;"  class="btn btn-primary btn-default" style="float:left"></form>
+                        <form><input type="button" value="« Back" onClick="history.go(-1);return true;"
+                                     class="btn btn-primary btn-default" style="float:left"></form>
                     </div>
                 </div>
             </div>
