@@ -33,7 +33,7 @@ def index():
 def jump_to_index(abstract_id):
     cursor = abstracts.find({'_id': parse_id(abstract_id)})
     if cursor.count() == 0:
-        return render_template('noAbstractFoundError.hml')
+        return render_template('noAbstractFoundError.html')
     else:
         tokenized_text = cursor[0]['text']
         keywords = cursor[0]['keywords']
