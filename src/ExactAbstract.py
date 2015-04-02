@@ -101,7 +101,7 @@ def downloadResults(run):
     # Check for valid file and assign it to `inbound_file`
     # data = upldfile()
     fname = "results-" + run + ".txt"
-    f = open(os.path.dirname(__file__) + "/../" + fname)
+    f = open(os.path.dirname(__file__) + fname)
     # file = open("../results-" + run + ".txt", "r")
     response = make_response(f.read())
     response.headers["Content-Disposition"] = "attachment; filename=" + fname
