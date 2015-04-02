@@ -51,7 +51,7 @@ def abstract_keyword_search():
         cursor = abstracts.find({})
         output = []
         stemmer = PorterStemmer()
-        if cursor.count() == 0:
+        if len(keyword) == 0:
             return render_template('noAbstractFoundError.html')
         else:
             for x in range(0, cursor.count()):
@@ -67,6 +67,7 @@ def single_keyword_search(keyword):
     cursor = abstracts.find({})
     output = []
     stemmer = PorterStemmer()
+    print(cursor.count())
     if cursor.count() == 0:
         return render_template('noAbstractFoundError.html')
     else:
