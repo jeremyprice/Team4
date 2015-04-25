@@ -28,3 +28,18 @@ box on the main page, or otherwise make api requests directly.
 ## API Docs
 
 To access API docs, go to our [Apiary site](http://docs.exactabstract.apiary.io/).
+
+## MongoDB
+
+The project also requires the use of MongoDB to store abstracts and their related information.
+
+The structure of MongoDB in ExactAbstract is as follows:
+
+Database: ExactAbstract
+
+Collection: abstracts
+
+Document Structure:
+'_id' - Abstract id
+'text' - Abstract text
+'keywords' - Abstract keywords

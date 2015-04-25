@@ -1,3 +1,8 @@
+## @package ExactAbstract
+# All non-algorithm related work for ExactAbstract
+#
+# The main package for the app
+
 from flask import Flask
 from flask import request
 from flask import render_template, jsonify, make_response

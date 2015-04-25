@@ -1,0 +1,27 @@
+var _exact_abstract_8py =
+[
+    [ "abstract_id_search", "_exact_abstract_8py.html#a52eacafa2c8eaac496cafee304ffa947", null ],
+    [ "abstract_keyword_search", "_exact_abstract_8py.html#a430f2029e33d195fc2c82765889a40ad", null ],
+    [ "allowed_file", "_exact_abstract_8py.html#a9997cb876a646d7c92c8fe63eb29e42a", null ],
+    [ "api_jump_to_index", "_exact_abstract_8py.html#a096ad416d9be1d6330cdde6a74a1c372", null ],
+    [ "api_upload", "_exact_abstract_8py.html#acb439b8c5b3e107837f65a075ba7a9ed", null ],
+    [ "delete_abstract", "_exact_abstract_8py.html#aa92864e2a6546b580cc7ff0205432932", null ],
+    [ "downloadResults", "_exact_abstract_8py.html#aed7c30953d2b63e6c06e779eb8f8c656", null ],
+    [ "file_upload_wizard", "_exact_abstract_8py.html#acf5afbedaf0e35e762491ca68793767c", null ],
+    [ "get_data", "_exact_abstract_8py.html#a8ea24a1a929f5a3ad0dfb6947873bcf0", null ],
+    [ "get_highlighted_words", "_exact_abstract_8py.html#a3694859d8e299eed01196d2f9a2cced6", null ],
+    [ "get_keywords", "_exact_abstract_8py.html#a0530d05d3ed8c73235676c863023260a", null ],
+    [ "get_related_abstracts", "_exact_abstract_8py.html#a2a61066da1226ed3a3f5e97564c1af66", null ],
+    [ "index", "_exact_abstract_8py.html#a044afd13714aaec8d6f852eff7dbd10c", null ],
+    [ "insert_document", "_exact_abstract_8py.html#ada01b1b94e1299d87b1c74b07b26ffe1", null ],
+    [ "jump_to_index", "_exact_abstract_8py.html#a66f81afa75f4987d4f04a081b294312b", null ],
+    [ "keyword_output", "_exact_abstract_8py.html#a0d15d2404d56ad683c5d527ff23dedd9", null ],
+    [ "parse_id", "_exact_abstract_8py.html#a6887dc07b7a49b37353eeae11aa56dc9", null ],
+    [ "single_keyword_search", "_exact_abstract_8py.html#af18860ca8bec222bf23f46dbcfe5a855", null ],
+    [ "upldfile", "_exact_abstract_8py.html#a6ca600260b0ee1b9423c3d6f9d043bf7", null ],
+    [ "abstracts", "_exact_abstract_8py.html#ad53018c2a987a2f55a57c37badfcd6a2", null ],
+    [ "ALLOWED_EXTENSIONS", "_exact_abstract_8py.html#ab30c9b877b8b44c7007969dbdb1ce4f4", null ],
+    [ "app", "_exact_abstract_8py.html#a7f717d7bc293c6811775b0d8dbc7b5b5", null ],
+    [ "client", "_exact_abstract_8py.html#aed72534e97bb2b0627003968d47a9f7e", null ],
+    [ "db", "_exact_abstract_8py.html#a049b879bdc01de1bce82eecb008c6e2d", null ]
+];

@@ -1,3 +1,8 @@
+## @package Algorithms
+# Contains all of the algorithms involved in ExactAbstract
+#
+# Algorithms used to determine keywords of an abstract
+
 from __future__ import division
 import string
 import operator
