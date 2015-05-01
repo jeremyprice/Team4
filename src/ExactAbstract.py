@@ -39,6 +39,10 @@ def parse_id(s_id):
 def index():
     return render_template('index.html')
 
+@app.route('/about')
+def welcome():
+    return render_template('about.html')
+
 ## Method jump_to_index
 # Displays the abstract with keywords highlighted, as well as all related information to the user
 #

@@ -4310,7 +4310,7 @@ textarea.input-group-sm>.form-control,textarea.input-group-sm>.input-group-addon
 @media (min-width:768px){
 	.navbar-nav{
 		float:left;
-		margin:0
+		margin:20px;
 	}
 
 	.navbar-nav>li{
@@ -4318,8 +4318,8 @@ textarea.input-group-sm>.form-control,textarea.input-group-sm>.input-group-addon
 	}
 
 	.navbar-nav>li>a{
-		padding-top:15px;
-		padding-bottom:15px
+		padding-top:5px;
+		padding-bottom:5px
 	}
 
 	.navbar-nav.navbar-right:last-child{

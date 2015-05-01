@@ -6,6 +6,43 @@
     <div class="jumbotron">
         <br>
         <center>
+            <h1>Welcome!</h1>
+        </center>
+        <br>
+
+        <div class="container">
+            <div class="container__section__welcome" id="welcome">
+                <div id="control">
+
+                    <p>ExactAbstract is a web application that turns research article abstracts into a list of 5
+                        keywords that are
+                        representative of the text. It also links it to other abstracts it could be related to based on
+                        these
+                        keywords.Users can upload files using our file uploader, or insert the text manually. Both
+                        methods will show
+                        the results with the keywords highlighted in the original abstract so that they can be seen in
+                        context. The
+                        users are also given the option to download a JSON file representation of the results. If you
+                        are looking
+                        for a previously uploaded abstract or just researching, you can use our search mechanisms to
+                        search for
+                        abstracts by ID or keyword. </p>
+
+                    <br>
+                    <center>
+                        <span class="container__button"> <a href="javascript:void(0)" class="btn btn-lg btn-primary">Get
+                            Started</a></span>
+                    </center>
+                    <br>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="container__section__one">
+        <br>
+        <center>
             <h1>What would you like to do?</h1>
             <br>
 
@@ -43,7 +80,9 @@
                                           placeholder="Enter your text here"></textarea>
                                 <br>
                                 <br>
-                                <button class="btn btn-primary btn-lg" type="submit" name="manualUploadBtn" id="manualUploadBtn">Submit »</button>
+                                <button class="btn btn-primary btn-lg" type="submit" name="manualUploadBtn"
+                                        id="manualUploadBtn">Submit »
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -58,8 +97,9 @@
                             <img class="img-responsive img-thumbnail" src="/static/img/new_search_icon.png">
 
                             <form action="/abstract_id_search" method="POST">
-                                <input type="text" class="form-control" rows="1" style="resize:vertical;" name="id" id="jump_id"
-                                          placeholder="ID #"></textarea>
+                                <input type="text" class="form-control" rows="1" style="resize:vertical;" name="id"
+                                       id="jump_id"
+                                       placeholder="ID #"></textarea>
                                 <br>
                                 <button class="btn btn-primary" type="submit">Jump to Abstract »</button>
                             </form>
@@ -67,8 +107,8 @@
 
                             <form action="/abstract_keyword_search" method="POST">
                                 <input type="text" class="form-control" rows="1" style="resize:vertical;" name="keyword"
-                                          id="keyword"
-                                          placeholder="Keyword"></textarea>
+                                       id="keyword"
+                                       placeholder="Keyword"></textarea>
                                 <br>
                                 <button class="btn btn-primary" type="submit">Find Abstracts »</button>
                             </form>
@@ -82,5 +122,5 @@
 
 </div>
 
-  <script src="/static/js/homepage_handler.js"></script>
+<script src="/static/js/homepage_handler.js"></script>
 {% endblock %}
