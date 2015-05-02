@@ -12,19 +12,12 @@ $(function () {
 
     var body = $("html:not(:animated) ,body:not(:animated)"),
         contHello = $('.container__section_welcome'),
-        contOne = $(".container__section__one"),
 
         butWelcome = $('.container__section__welcome .container__button'),
-        butOne = $(".container__section__one .container__button"),
-
-
 
         //Parameters
         fullHeight = $(window).height(),
         scrollTop = $(window).scrollTop();
-
-
-
 
     butWelcome.on('click', function () {
         body.animate({
@@ -35,18 +28,6 @@ $(function () {
         });
 
     });
-
-    butOne.on('click', function () {
-        body.animate({
-            scrollTop: fullHeight * 2
-        }, {
-            queue: false,
-            duration: 500
-        });
-
-    });
-
-
 
  $(this).keydown(function (e) {
         if (e.keyCode == '13') {
