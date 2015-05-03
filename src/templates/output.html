@@ -1,21 +1,44 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+
 {% extends "base.html" %}
 
 {% block content %}
 <div class="container theme-showcase" role="main">
     <div class="jumbotron">
         <br>
+
         <div class="row">
-            <div class="panel-body">
-                <form action="/delete_abstract/" method="POST">
-                    <input name="abstract_id" value="77" type="hidden">
-                    <button class="btn btn-primary btn-lg" type="submit" style="float:right">Delete
-                        Abstract »
+
+            <br>
+            <br>
+
+            <form class="form-inline" action="/delete_abstract/" method="POST">
+                <div class="form-group">
+
+                    <input value="« Back" onclick="history.go(-1);return true;" class="btn btn-default btn-primary"
+                           style="float:left" type="button">
+
+
+                </div>
+                <div style="float: right;" class="form-group">
+
+                    <button class="btn btn-default btn-primary" type="submit">Download Result <span
+                            class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
                     </button>
-                </form>
-                <form><input value="« Back" onclick="history.go(-1);return true;" class="btn btn-primary btn-lg"
-                            style="float:left" type="button"></form>
-                <center><h1>Abstract #<span id="abstract_id">77</span></h1></center>
-            </div>
+
+                    <input type="hidden" name="abstract_id" value="{{abstract_id}}"/>
+                    <button class="btn btn-default btn-primary" type="submit">Delete
+                        Abstract <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                    </button>
+
+                </div>
+            </form>
+
+            <center>
+                <h1> Abstract #<span id="abstract_id">{{abstract_id}}</span></h1>
+            </center>
+
+            <br>
 
         </div>
         <div class="row">

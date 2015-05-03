@@ -109,6 +109,7 @@ def single_keyword_search(keyword):
 def delete_abstract():
     if request.method == 'POST':
         post_id = request.form.get('abstract_id')
+        print("the id is" + post_id)
         cursor = abstracts.find({'_id': parse_id(post_id)})
         if cursor.count() == 0:
             return 'There was an error deleting the abstract'
