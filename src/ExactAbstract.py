@@ -109,7 +109,6 @@ def single_keyword_search(keyword):
 def delete_abstract():
     if request.method == 'POST':
         post_id = request.form.get('abstract_id')
-        print("the id is" + post_id)
         cursor = abstracts.find({'_id': parse_id(post_id)})
         if cursor.count() == 0:
             return 'There was an error deleting the abstract'
@@ -266,11 +265,24 @@ def keyword_output():
         highlighted = get_highlighted_words(tokenized_text, keywords)
         abstract_id = insert_document(tokenized_text, keywords, abstracts)
         related_abstracts = get_related_abstracts(abstract_id, keywords)
+        create_file(text, keywords,abstract_id)
         return render_template('output.html', hashtags=keywords, tokenized_text=tokenized_text,
                                highlighted_text=highlighted, abstract_id=abstract_id,
                                related_abstracts=related_abstracts)
     else:
         return 'Something has gone terribly wrong.'
+
+
+def create_file(original_abstract, keywords, abstract_id):
+    # data that will be stored in output file
+    filedata = {'abstract_id': abstract_id, 'hashtags': keywords,
+                'original_abstract': original_abstract, }
+    # create a new file for each file uploaded with the data from the results
+    resultsfile = open('results' + '-' + str(abstract_id) + '.txt', 'w+')
+    jsonifieddata = json.dumps(filedata)
+    resultsfile.write(jsonifieddata)
+    resultsfile.close()
+    return 'success'
 
 ## Method abstract_id_search
 # Called when manually entering abstract id into the main page.
