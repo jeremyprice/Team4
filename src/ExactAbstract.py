@@ -1,4 +1,4 @@
-## @package ExactAbstract
+# # @package ExactAbstract
 # All non-algorithm related work for ExactAbstract
 #
 # The main package for the app
@@ -6,7 +6,6 @@
 from flask import Flask
 from flask import request
 from flask import render_template, jsonify, make_response
-from flask.helpers import url_for
 from algorithms.statistical import get_keyword
 from nltk.tokenize import word_tokenize
 from nltk.stem.porter import PorterStemmer
@@ -33,15 +32,18 @@ def parse_id(s_id):
     except ValueError:
         return -1
 
+
 ## Method index
 # Displays the main page to the user
 @app.route('/')
 def index():
     return render_template('index.html')
 
+
 @app.route('/about')
 def welcome():
     return render_template('about.html')
+
 
 ## Method jump_to_index
 # Displays the abstract with keywords highlighted, as well as all related information to the user
@@ -61,6 +63,7 @@ def jump_to_index(abstract_id):
         return render_template('output.html', hashtags=keywords, tokenized_text=tokenized_text,
                                highlighted_text=highlighted, abstract_id=abstract_id,
                                related_abstracts=related_abstracts)
+
 
 ## Method abstract_keyword_search
 # Stems the manually entered keyword from the main page and displays every abstract containing the keyword to the user
@@ -82,6 +85,7 @@ def abstract_keyword_search():
     else:
         return 'Something has gone terribly wrong.'
 
+
 ## Method single_keyword_search
 # Called when a keyword from an abstract output is clicked on.
 # Displays every abstract containing the keyword to the user
@@ -102,6 +106,7 @@ def single_keyword_search(keyword):
                 output.append([str(cursor[x]['_id']), cursor[x]['keywords']])
     return render_template('keywordSearchOutput.html', output=output)
 
+
 ## Method delete_abstract
 # Deletes the current abstract from the MongoDB collection
 # Displays a deletion confirmation page to the user
@@ -118,11 +123,13 @@ def delete_abstract():
     else:
         return 'Something has gone terribly wrong.'
 
+
 ## Method file_upload_wizard
 # Displays the file upload wizard to the user
 @app.route('/fileUploadWizard', methods=['GET', 'POST'])
 def file_upload_wizard():
     return render_template('fileUploadWizard.html')
+
 
 ## Method downloadResults
 # Provides the user a file of the abstract and its summarized information
@@ -139,6 +146,7 @@ def downloadResults(run):
     response.headers["Content-Disposition"] = "attachment; filename=" + fname
     return response
 
+
 ## Method get_keywords
 # Reads in abstract text and displays the keywords
 # Used in early development to easily see keywords of an abstract
@@ -151,6 +159,7 @@ def get_keywords():
         return json.dumps(get_keyword(text))
     else:
         return 'Something has gone terribly wrong.'
+
 
 ## Method get_data
 # Retrieves the abstract contained in the given file, summarizes the abstract, and stores the related information.
@@ -178,6 +187,7 @@ def get_data(opened_file):
             'highlighted_text': highlighted_words, 'abstract_id': abstract_id}
     return data
 
+
 ## Method allowed_file
 # Checks to see if a uploaded file type is currently supported by the system. Note currently only txt files are allowed.
 #
@@ -186,6 +196,7 @@ def get_data(opened_file):
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
 
 ## Method upldfile
 # Parses a list of uploaded files to analyze all of the abstracts
@@ -202,6 +213,7 @@ def upldfile():
                 allData['fileInfo'].append(data)
         return jsonify(allData)
 
+
 ## Method get_highlighted_words
 # Traverses the abstract and returns a list of all the words whose stem matches a keyword
 #
@@ -215,6 +227,7 @@ def get_highlighted_words(text, keys):
         if stemmer.stem(word.lower()) in keys:
             words.append(word)
     return words
+
 
 ## Method insert_document
 # Creates a MongoDB document for the given summarized abstract and stores it in the given collection.
@@ -234,6 +247,7 @@ def insert_document(text, keywords, target_collection):
         target_collection.insert(document)
         return seq
 
+
 ## Method get_related_abstracts
 # Searches the MongoDB collection of abstract documents for all abstracts with the same keywords
 #
@@ -252,6 +266,7 @@ def get_related_abstracts(abstract_id, abstract_keywords):
                 ids.append(cursor[x]['_id'])
         return ids
 
+
 ## Method keyword_output
 # Called when manually entering abstract text into the main page.
 # Parses the text, finds keywords, and inserts the abstract into the MongoDB collection.
@@ -265,7 +280,7 @@ def keyword_output():
         highlighted = get_highlighted_words(tokenized_text, keywords)
         abstract_id = insert_document(tokenized_text, keywords, abstracts)
         related_abstracts = get_related_abstracts(abstract_id, keywords)
-        create_file(text, keywords,abstract_id)
+        create_file(text, keywords, abstract_id)
         return render_template('output.html', hashtags=keywords, tokenized_text=tokenized_text,
                                highlighted_text=highlighted, abstract_id=abstract_id,
                                related_abstracts=related_abstracts)
@@ -273,6 +288,14 @@ def keyword_output():
         return 'Something has gone terribly wrong.'
 
 
+## Method create_file
+# Called when manually entering abstract text into the main page
+# creates a new file containing the abstract ID, keywords, and original abstract text as JSON data
+# so that it can be downloaded later
+#
+# @param original_abstract original text of the current abstract
+# @param abstract_id The id of the current abstract
+# @param keywords The keywords of the current abstract
 def create_file(original_abstract, keywords, abstract_id):
     # data that will be stored in output file
     filedata = {'abstract_id': abstract_id, 'hashtags': keywords,
@@ -282,7 +305,7 @@ def create_file(original_abstract, keywords, abstract_id):
     jsonifieddata = json.dumps(filedata)
     resultsfile.write(jsonifieddata)
     resultsfile.close()
-    return 'success'
+
 
 ## Method abstract_id_search
 # Called when manually entering abstract id into the main page.
@@ -306,6 +329,7 @@ def abstract_id_search():
     else:
         return 'Something has gone terribly wrong.'
 
+
 ## Method api_jump_to_index
 # Gives the users API output of a specific abstract given its id
 @app.route('/api/abstracts/<abstract_id>')
@@ -313,7 +337,7 @@ def api_jump_to_index(abstract_id):
     cursor = abstracts.find({'_id': parse_id(abstract_id)})
     results = {}
     status_code = 200
-    headers = {'Content-Type':'application/json'}
+    headers = {'Content-Type': 'application/json'}
     if cursor.count() == 0:
         results['error'] = 'There are no abstracts with that ID!'
         status_code = 404
@@ -326,13 +350,14 @@ def api_jump_to_index(abstract_id):
         results['results'] = [result]
     return (json.dumps(results), status_code, headers)
 
+
 ## Method api_upload
 # Allows the user to analyze abstracts through the API
 @app.route('/api/upload', methods=['POST'])
 def api_upload():
     results = {}
     status_code = 200
-    headers = {'Content-Type':'application/json'}
+    headers = {'Content-Type': 'application/json'}
     if request.method == 'POST':
         parsed_request = request.get_json()
         if 'files' not in parsed_request:
@@ -352,7 +377,7 @@ def api_upload():
             result['abstract_id'] = abstract_id
             processed.append(result)
         results['results'] = processed
-    else: # unknown requests type
+    else:  # unknown requests type
         results['error'] = 'Method Not Allowed'
         status_code = 405
     return (json.dumps(results), status_code, headers)
