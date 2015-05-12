@@ -59,8 +59,8 @@
 
                             <p>none</p>
                             {% else %}
-                            {% for id in related_abstracts %}
-                            <a href="/{{id}}">{{id}}</a>
+                            {% for abstract in related_abstracts %}
+                            <a href="/{{abstract['_id']}}" title="{{abstract['prettyText']}}">#{{abstract['_id']}}</a>
                             {% endfor %}
                             {% endif %}
                             </p>

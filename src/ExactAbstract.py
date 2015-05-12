@@ -263,7 +263,11 @@ def get_related_abstracts(abstract_id, abstract_keywords):
         for x in range(0, cursor.count()):
             keywords = cursor[x]['keywords']
             if all(word in abstract_keywords for word in keywords) and cursor[x]['_id'] != abstract_id:
-                ids.append(cursor[x]['_id'])
+                prettyText = ""
+                for word in cursor[x]['text']:
+                    prettyText += word + " "
+                abstract = {'_id': cursor[x]['_id'], 'prettyText': prettyText }
+                ids.append(abstract)
         return ids
 
 
