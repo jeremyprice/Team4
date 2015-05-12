@@ -3,6 +3,7 @@
  */
 $(function () {
 
+    /* hide the loading icon */
     $('#myLoader').hide();
 
     /* Setup file uploader*/
@@ -92,6 +93,9 @@ $(function () {
 
 });
 
+/*
+ This function creates the output for the abstracts. It lists the keywords or "hashtags" , sets the title ID number, and highlights the keywords in the original abstract.
+ */
 function createOutput(data, index) {
     $('#hashtags').text(data['fileInfo'][index]['hashtags']);
     $('#abstract_id').text(data['fileInfo'][index]['abstract_id']);

@@ -1,12 +1,41 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+
 {% extends "base.html" %}
 
 {% block content %}
 <div class="container theme-showcase" role="main">
     <div class="jumbotron">
         <br>
-        <center><h1>Abstract #<span id="abstract_id">{{abstract_id}}</span></h1></center>
+
+        <div class="row">
+            <br>
+            <br>
+            <!--Generate top row of buttons to go back, delete the abstract, or download the results-->
+            <form class="form-inline" action="/delete_abstract/" method="POST">
+                <div class="form-group">
+
+                    <input value="« Back" onclick="history.go(-1);return true;" class="btn btn-default btn-primary"
+                           style="float:left" type="button">
+                </div>
+                <div style="float: right;" class="form-group">
+                    <a href="/downloads/{{abstract_id}}" class="btn btn-default btn-primary">Download Result <span
+                            class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
+                    </a>
+                    <input type="hidden" name="abstract_id" value="{{abstract_id}}"/>
+                    <button class="btn btn-default btn-primary" type="submit">Delete
+                        Abstract <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </form>
+            <!--Set title of output results-->
+            <center>
+                <h1> Abstract #<span id="abstract_id">{{abstract_id}}</span></h1>
+            </center>
+            <br>
+        </div>
         <div class="row">
             <div class="col-lg-6">
+                <!--Populate leftmost panel with summary information: keywords and related abstracts-->
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <center><h3 class="panel-title">Summary</h3></center>
@@ -32,7 +61,6 @@
                             {% else %}
                             {% for id in related_abstracts %}
                             <a href="/{{id}}">{{id}}</a>
-
                             {% endfor %}
                             {% endif %}
                             </p>
@@ -40,6 +68,7 @@
                     </div>
                 </div>
             </div>
+            <!--Display original abstract in rightmost panel with keywords highlighted-->
             <div class="col-lg-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -54,21 +83,6 @@
                         <span style="background-color: #ffffff">{{word}}</span>
                         {% endif %}
                         {% endfor %}
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <form action="/delete_abstract/" method="POST">
-                            <input type="hidden" name="abstract_id" value="{{abstract_id}}"/>
-                            <button class="btn btn-primary btn-default" type="submit" style="float:right">Delete
-                                Abstract »
-                            </button>
-                        </form>
-                        <form><input type="button" value="« Back" onClick="history.go(-1);return true;"
-                                     class="btn btn-primary btn-default" style="float:left"></form>
                     </div>
                 </div>
             </div>

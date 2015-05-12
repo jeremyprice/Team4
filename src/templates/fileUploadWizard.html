@@ -1,9 +1,6 @@
 <!--FuelUX styling dependencies-->
-
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-
 <link href="//www.fuelcdn.com/fuelux/3.4.0/css/fuelux.min.css" rel="stylesheet">
-
 <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
@@ -23,7 +20,7 @@
     <div class="jumbotron">
         <br>
         <br>
-
+        <!--Initialize wizard and tab titles-->
         <div class="fuelux">
             <div class="wizard" data-initialize="wizard" id="myWizard">
                 <ul class="steps">
@@ -36,7 +33,7 @@
                     </li>
                 </ul>
 
-
+                <!--Step one of the wizard: file upload -->
                 <div class="step-content">
                     <div class="step-pane active sample-pane alert" data-step="1">
                         <h4>Upload Your File(s)</h4>
@@ -51,26 +48,24 @@
                                             the control key down while selecting them.
                                         </div>
                                         <center>
-                                                 <div class="loader" id="myLoader" data-initialize="loader"></div>
-                                            </center>
+                                            <div class="loader" id="myLoader" data-initialize="loader"></div>
+                                        </center>
                                         <form id="uploadform" method=post
                                               enctype=multipart/form-data>
                                             <input id="input-700" name="file[]" class="file"
                                                    type="file" multiple/>
                                         </form>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-
+                    <!--Step two of the wizard: Display output -->
                     <div class="step-pane sample-pane  alert" data-step="2">
                         <h4>Summary Results</h4>
                         {% include "fileUploadOutput.html" %}
                     </div>
-
+                    <!--Step three of the output: download results-->
                     <div class="step-pane sample-pane alert" data-step="3">
                         <h4>Save Results</h4>
                         <br>
@@ -83,10 +78,12 @@
                         <div id="resultsList"></div>
                         <br>
                         <br>
+
                         <div>
-                        <input type="button" value="« Back" onClick="$('#myWizard').wizard('previous')" class="btn btn-primary btn-default" style="float:left" id="resultsBackBtn">
-                              <a href ="/"  class="btn btn-primary btn-default" style="float: right"> Finish</a>
-                            </div>
+                            <input type="button" value="« Back" onClick="$('#myWizard').wizard('previous')"
+                                   class="btn btn-primary btn-default" style="float:left" id="resultsBackBtn">
+                            <a href="/" class="btn btn-primary btn-default" style="float: right"> Finish</a>
+                        </div>
                     </div>
                 </div>
             </div>
